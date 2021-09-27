@@ -5,51 +5,40 @@ import java.util.Scanner;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
-public class MainController implements UserInputMatcher {
+public class MainController extends Controller {
 
-    private Scanner scanner = new Scanner(System.in);
     private UserRoleController userRoleController;
     private UserController userController;
-    private UserChoice userCommand;
 
-
+    @Override
     public void processUser() {
         System.out.println(GREETING);
 
         listenToInput();
 
+        responseToCommand();
+    }
+
+    @Override
+    protected void responseToCommand() {
         switch (userCommand) {
-            case SHOW_ALL_ROLES:
-                showAllUserRoles();
+            case WORK_WITH_ROLES:
+                userRoleController.processUser();
                 break;
-            case SHOW_ALL_USERS:
-                showAllUsers();
+            case WORK_WITH_USERS:
+                userController.processUser();
                 break;
         }
     }
 
-    private void listenToInput() {
-
-        while (scanner.hasNext()) {
-            String currentInput = scanner.next();
-
-            if(inputMatchesCommand(currentInput)) {
-                setUserCommand(currentInput.toUpperCase());
-                break;
-            } else {
-                System.out.println(WRONG_INPUT);
-            }
-        }
-
-    }
-
-    private void setUserCommand(String input) {
+    @Override
+    protected void setUserCommand(String input) {
         switch (input) {
             case "R":
-                userCommand = UserChoice.SHOW_ALL_ROLES;
+                userCommand = UserChoice.WORK_WITH_ROLES;
                 break;
             case "U":
-                userCommand = UserChoice.SHOW_ALL_USERS;
+                userCommand = UserChoice.WORK_WITH_USERS;
                 break;
         }
     }
@@ -58,21 +47,4 @@ public class MainController implements UserInputMatcher {
         this.userRoleController = new UserRoleController();
         this.userController = new UserController();
     }
-
-    public void showAllUserRoles() {
-        try {
-            System.out.println(userRoleController.getAllUserRoles());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void showAllUsers() {
-        try {
-            System.out.println(userController.getAllUsers());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
 }

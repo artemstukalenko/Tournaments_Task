@@ -15,6 +15,10 @@ public class UserRoleController {
         this.userRoleService = new UserRoleServiceImpl();
     }
 
+    public void processUser() {
+
+    }
+
     public List<UserRole> getAllUserRoles() throws SQLException {
         return userRoleService.getAllUserRoles();
     }
