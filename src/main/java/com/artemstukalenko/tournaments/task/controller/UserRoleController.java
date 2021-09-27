@@ -21,7 +21,7 @@ public class UserRoleController extends EntityController {
     public void processUser() {
         System.out.println(WHAT_TO_DO_WITH);
 
-        listenToInput();
+        listenToInputCommand();
 
         responseToCommand();
     }

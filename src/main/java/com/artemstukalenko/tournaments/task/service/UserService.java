@@ -10,4 +10,6 @@ public interface UserService {
 
     List<User> getAllUsers() throws SQLException;
 
+    boolean addNewUser(User userToAdd);
+
 }

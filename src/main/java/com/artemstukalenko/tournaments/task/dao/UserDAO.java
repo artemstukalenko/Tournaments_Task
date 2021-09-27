@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserDAO {
 
-    public List<User> getAllUsers() throws SQLException;
+    List<User> getAllUsers() throws SQLException;
+
+    boolean addNewUser(User userToAdd) throws SQLException;
 
 }

@@ -20,4 +20,13 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() throws SQLException {
         return userDAO.getAllUsers();
     }
+
+    @Override
+    public boolean addNewUser(User userToAdd) {
+        try {
+            return userDAO.addNewUser(userToAdd);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }

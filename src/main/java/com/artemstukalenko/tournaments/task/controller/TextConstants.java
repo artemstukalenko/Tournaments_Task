@@ -12,4 +12,10 @@ public interface TextConstants {
     String UPDATE_ENTITY_REQUEST = "Please, type in ID of an entity, that you want to update";
     String UPDATE_ENTITY_OBJECT = "You are going to update entity: ";
     String UPDATED_SUCCESSFULLY = "Successfully updated entity: ";
+
+    String ROLE_FOR_NEW_USER = "Enter role for new user: ";
+    String NAME_FOR_NEW_USER = "Enter name for new user: ";
+    String USERNAME_FOR_NEW_USER = "Enter username for new user: ";
+    String PASSWORD_FOR_NEW_USER = "Enter password for new user: ";
+    String PASSWORD_LENGTH_MESSAGE = "Password's length has to be at least 4 symbols";
 }

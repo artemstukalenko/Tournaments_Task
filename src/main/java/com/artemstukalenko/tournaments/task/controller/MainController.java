@@ -11,7 +11,7 @@ public class MainController extends Controller {
     public void processUser() {
         System.out.println(GREETING);
 
-        listenToInput();
+        listenToInputCommand();
 
         responseToCommand();
     }

@@ -50,4 +50,31 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
             close(connection, statement, resultSet);
         }
     }
+
+    @Override
+    public boolean addNewUser(User userToAdd) throws SQLException {
+
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            connection.setAutoCommit(false);
+            String statementForAddingNewUser = "insert into users (role_id, name, user_name, password, is_admin)" +
+                    "values (?, ?, ?, ?, ?)";
+            statement = connection.prepareStatement(statementForAddingNewUser);
+            statement.setInt(1, userToAdd.getUserRole().getRoleId());
+            statement.setString(2, userToAdd.getName());
+            statement.setString(3, userToAdd.getUsername());
+            statement.setString(4, userToAdd.getPassword());
+            statement.setBoolean(5, userToAdd.isAdmin());
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
 }

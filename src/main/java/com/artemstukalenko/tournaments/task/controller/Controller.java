@@ -3,6 +3,7 @@ package com.artemstukalenko.tournaments.task.controller;
 import java.util.Scanner;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.WRONG_INPUT;
+import static com.artemstukalenko.tournaments.task.controller.RegexContainer.*;
 
 public abstract class Controller implements UserInputMatcher {
 
@@ -11,7 +12,7 @@ public abstract class Controller implements UserInputMatcher {
 
     public abstract void processUser();
 
-    protected void listenToInput() {
+    protected void listenToInputCommand() {
 
         while (scanner.hasNext()) {
             String currentInput = scanner.next();
@@ -24,6 +25,21 @@ public abstract class Controller implements UserInputMatcher {
             }
         }
 
+    }
+
+    protected String listenToInputForString() {
+
+        while (scanner.hasNext()) {
+            String currentInput = scanner.next();
+
+            if(currentInput.matches(ONLY_LETTERS)) {
+                return currentInput;
+            } else {
+                System.out.println(WRONG_INPUT);
+            }
+        }
+
+        return "";
     }
 
     protected abstract void setUserCommand(String input);

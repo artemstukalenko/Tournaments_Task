@@ -22,6 +22,14 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public User(UserRole userRole, String name, String username, String password) {
+        this.userRole = userRole;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.isAdmin = userRole.getRoleName().equalsIgnoreCase("admin") ? true : false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
