@@ -38,7 +38,25 @@ public class UserRoleController extends Controller {
             case DELETE_ENTITY:
                 processRoleDeletion();
                 break;
+            case UPDATE_ENTITY:
+                processRoleUpdate();
+                break;
         }
+    }
+
+    private void processRoleUpdate() {
+        System.out.println(UPDATE_ENTITY_REQUEST);
+
+        int roleToUpdate = listenToInputForID();
+
+        System.out.println(UPDATE_ENTITY_OBJECT + userRoleService.findRoleById(roleToUpdate));
+        System.out.println(ENTER_NAME_FOR_NEW_ENTITY);
+
+        UserRole updatedRoleObject = constructNewRole();
+
+        userRoleService.updateRole(roleToUpdate, updatedRoleObject);
+
+        System.out.println(UPDATED_SUCCESSFULLY + userRoleService.findRoleById(roleToUpdate));
     }
 
     private void processRoleDeletion() {
@@ -89,6 +107,9 @@ public class UserRoleController extends Controller {
                 break;
             case "D":
                 userCommand = UserChoice.DELETE_ENTITY;
+                break;
+            case "U":
+                userCommand = UserChoice.UPDATE_ENTITY;
                 break;
         }
     }

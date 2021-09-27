@@ -22,8 +22,12 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public UserRole findRoleById(int roleId) throws SQLException {
-        return userRoleDAO.findRoleById(roleId);
+    public UserRole findRoleById(int roleId) {
+        try {
+            return userRoleDAO.findRoleById(roleId);
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     @Override
@@ -40,6 +44,16 @@ public class UserRoleServiceImpl implements UserRoleService {
     public boolean deleteRoleById(int roleId) {
         try {
             return userRoleDAO.deleteRoleById(roleId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateRole(int roleToUpdate, UserRole updatedRole) {
+        try {
+            return userRoleDAO.updateRoleInDB(roleToUpdate, updatedRole);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

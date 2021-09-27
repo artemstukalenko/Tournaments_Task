@@ -9,9 +9,11 @@ public interface UserRoleService {
 
     public List<UserRole> getAllUserRoles() throws SQLException;
 
-    UserRole findRoleById(int roleId) throws SQLException;
+    UserRole findRoleById(int roleId);
 
     boolean addNewRole(UserRole roleToAdd);
 
     boolean deleteRoleById(int roleId);
+
+    boolean updateRole(int roleToUpdate, UserRole updatedRole);
 }

@@ -109,4 +109,26 @@ public class UserRoleDAOImpl implements UserRoleDAO, ConnectionCloser {
             close(connection, statement, resultSet);
         }
     }
+
+    @Override
+    public boolean updateRoleInDB(int roleToUpdate, UserRole updatedRole) throws SQLException {
+
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            connection.setAutoCommit(false);
+            String statementForRoleUpdate = "update usersroles set role_name = ? where role_id = ?";
+            statement = connection.prepareStatement(statementForRoleUpdate);
+            statement.setString(1, updatedRole.getRoleName());
+            statement.setInt(2, roleToUpdate);
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
 }
