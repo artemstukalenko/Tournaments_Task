@@ -1,8 +1,5 @@
 package com.artemstukalenko.tournaments.task.controller;
 
-import java.sql.SQLException;
-import java.util.Scanner;
-
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
 public class MainController extends Controller {
