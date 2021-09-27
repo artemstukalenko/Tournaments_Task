@@ -12,4 +12,6 @@ public interface UserRoleDAO {
     UserRole findRoleById(int roleId) throws SQLException;
 
     boolean addNewRole(UserRole roleToAdd) throws SQLException;
+
+    boolean deleteRoleById(int roleId) throws SQLException;
 }

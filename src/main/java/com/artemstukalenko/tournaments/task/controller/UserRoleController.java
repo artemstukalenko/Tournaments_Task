@@ -33,15 +33,31 @@ public class UserRoleController extends Controller {
                 showAllUserRoles();
                 break;
             case ADD_NEW_ENTITY:
-                System.out.println(ENTER_NAME_FOR_NEW_ENTITY);
-
-                if(userRoleService.addNewRole(constructNewRole())) {
-                    System.out.println(ENTITY_ADDED);
-                } else {
-                    System.out.println(UNEXPECTED_ERROR_OCCURRED);
-                }
-
+                processRoleAddition();
                 break;
+            case DELETE_ENTITY:
+                processRoleDeletion();
+                break;
+        }
+    }
+
+    private void processRoleDeletion() {
+        System.out.println(DELETE_BY_ID);
+
+        if (userRoleService.deleteRoleById(listenToInputForID())) {
+            System.out.println(ENTITY_DELETED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    private void processRoleAddition() {
+        System.out.println(ENTER_NAME_FOR_NEW_ENTITY);
+
+        if(userRoleService.addNewRole(constructNewRole())) {
+            System.out.println(ENTITY_ADDED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
         }
     }
 
@@ -70,6 +86,9 @@ public class UserRoleController extends Controller {
                 break;
             case "A":
                 userCommand = UserChoice.ADD_NEW_ENTITY;
+                break;
+            case "D":
+                userCommand = UserChoice.DELETE_ENTITY;
                 break;
         }
     }

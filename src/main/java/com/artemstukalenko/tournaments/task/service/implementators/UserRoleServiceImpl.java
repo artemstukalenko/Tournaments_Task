@@ -35,4 +35,14 @@ public class UserRoleServiceImpl implements UserRoleService {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteRoleById(int roleId) {
+        try {
+            return userRoleDAO.deleteRoleById(roleId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

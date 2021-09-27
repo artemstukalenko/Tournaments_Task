@@ -28,6 +28,23 @@ public abstract class Controller implements UserInputMatcher {
 
     }
 
+    protected int listenToInputForID() {
+        int desiredId = 0;
+
+        while (scanner.hasNext()) {
+
+            try {
+                desiredId = Integer.parseInt(scanner.next());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(WRONG_INPUT);
+                continue;
+            }
+        }
+
+        return desiredId;
+    }
+
     protected abstract void setUserCommand(String input);
 
 }

@@ -12,4 +12,6 @@ public interface UserRoleService {
     UserRole findRoleById(int roleId) throws SQLException;
 
     boolean addNewRole(UserRole roleToAdd);
+
+    boolean deleteRoleById(int roleId);
 }

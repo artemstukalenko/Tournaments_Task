@@ -86,4 +86,27 @@ public class UserRoleDAOImpl implements UserRoleDAO, ConnectionCloser {
             close(connection, statement, resultSet);
         }
     }
+
+    @Override
+    public boolean deleteRoleById(int roleId) throws SQLException {
+
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            connection.setAutoCommit(false);
+            String statementForDeletingRole = "delete from usersroles where role_id = ?";
+            statement = connection.prepareStatement(statementForDeletingRole);
+            statement.setInt(1, roleId);
+
+            statement.executeUpdate();
+            connection.commit();
+
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
 }
