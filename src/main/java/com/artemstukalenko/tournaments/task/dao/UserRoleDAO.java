@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface UserRoleDAO {
 
-    public List<UserRole> getAllUserRoles() throws SQLException;
+    List<UserRole> getAllUserRoles() throws SQLException;
 
     UserRole findRoleById(int roleId) throws SQLException;
+
+    boolean addNewRole(UserRole roleToAdd) throws SQLException;
 }

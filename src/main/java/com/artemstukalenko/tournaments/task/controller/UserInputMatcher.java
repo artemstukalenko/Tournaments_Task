@@ -3,7 +3,8 @@ package com.artemstukalenko.tournaments.task.controller;
 public interface UserInputMatcher {
 
     default boolean inputMatchesCommand(String input) {
-        return input.equalsIgnoreCase("R") || input.equalsIgnoreCase("U");
+        return input.equalsIgnoreCase("R") || input.equalsIgnoreCase("U")
+                || input.equalsIgnoreCase("A");
     }
 
 }

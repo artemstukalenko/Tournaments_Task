@@ -27,7 +27,7 @@ public class UserController extends Controller {
     @Override
     protected void responseToCommand() {
         switch (userCommand) {
-            case SHOW_ALL_USERS:
+            case SHOW_ALL:
                 showAllUsers();
                 break;
         }
@@ -37,7 +37,7 @@ public class UserController extends Controller {
     protected void setUserCommand(String input) {
         switch (input) {
             case "R":
-                userCommand = UserChoice.SHOW_ALL_USERS;
+                userCommand = UserChoice.SHOW_ALL;
                 break;
         }
     }

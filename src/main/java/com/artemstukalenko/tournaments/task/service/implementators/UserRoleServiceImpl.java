@@ -25,4 +25,14 @@ public class UserRoleServiceImpl implements UserRoleService {
     public UserRole findRoleById(int roleId) throws SQLException {
         return userRoleDAO.findRoleById(roleId);
     }
+
+    @Override
+    public boolean addNewRole(UserRole roleToAdd) {
+        try {
+            return userRoleDAO.addNewRole(roleToAdd);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
