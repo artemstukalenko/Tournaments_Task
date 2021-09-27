@@ -6,8 +6,6 @@ import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.entity.UserRole;
 import com.artemstukalenko.tournaments.task.service.UserRoleService;
 import com.artemstukalenko.tournaments.task.service.implementators.UserRoleServiceImpl;
-
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +29,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
 
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
             String statementForGettingAllUsers = "select * from users";
             statement = connection.prepareStatement(statementForGettingAllUsers);
             resultSet = statement.executeQuery();
