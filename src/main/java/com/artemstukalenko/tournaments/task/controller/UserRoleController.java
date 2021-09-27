@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 import static com.artemstukalenko.tournaments.task.controller.RegexContainer.*;
 
-public class UserRoleController extends Controller {
+public class UserRoleController extends EntityController {
 
     private UserRoleService userRoleService;
 
@@ -27,24 +27,7 @@ public class UserRoleController extends Controller {
     }
 
     @Override
-    protected void responseToCommand() {
-        switch (userCommand) {
-            case SHOW_ALL:
-                showAllUserRoles();
-                break;
-            case ADD_NEW_ENTITY:
-                processRoleAddition();
-                break;
-            case DELETE_ENTITY:
-                processRoleDeletion();
-                break;
-            case UPDATE_ENTITY:
-                processRoleUpdate();
-                break;
-        }
-    }
-
-    private void processRoleUpdate() {
+    protected void processEntityUpdate() {
         System.out.println(UPDATE_ENTITY_REQUEST);
 
         int roleToUpdate = listenToInputForID();
@@ -59,7 +42,8 @@ public class UserRoleController extends Controller {
         System.out.println(UPDATED_SUCCESSFULLY + userRoleService.findRoleById(roleToUpdate));
     }
 
-    private void processRoleDeletion() {
+    @Override
+    protected void processEntityDeletion() {
         System.out.println(DELETE_BY_ID);
 
         if (userRoleService.deleteRoleById(listenToInputForID())) {
@@ -69,7 +53,8 @@ public class UserRoleController extends Controller {
         }
     }
 
-    private void processRoleAddition() {
+    @Override
+    protected void processEntityAddition() {
         System.out.println(ENTER_NAME_FOR_NEW_ENTITY);
 
         if(userRoleService.addNewRole(constructNewRole())) {
@@ -96,7 +81,8 @@ public class UserRoleController extends Controller {
         return newRole;
     }
 
-    public void showAllUserRoles() {
+    @Override
+    public void readAll() {
         try {
             System.out.println(userRoleService.getAllUserRoles());
         } catch (SQLException e) {

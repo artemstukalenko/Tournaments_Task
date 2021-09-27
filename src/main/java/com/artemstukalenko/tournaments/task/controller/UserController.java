@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
-public class UserController extends Controller {
+public class UserController extends EntityController {
 
     private UserService userService;
 
@@ -25,15 +25,22 @@ public class UserController extends Controller {
     }
 
     @Override
-    protected void responseToCommand() {
-        switch (userCommand) {
-            case SHOW_ALL:
-                showAllUsers();
-                break;
-        }
+    protected void processEntityAddition() {
+
     }
 
-    public void showAllUsers() {
+    @Override
+    protected void processEntityDeletion() {
+
+    }
+
+    @Override
+    protected void processEntityUpdate() {
+
+    }
+
+    @Override
+    protected void readAll() {
 
         try {
             System.out.println(userService.getAllUsers());
