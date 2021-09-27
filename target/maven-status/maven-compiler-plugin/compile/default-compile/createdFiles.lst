@@ -1,1 +1,11 @@
+com\artemstukalenko\tournaments\task\controller\UserRoleController.class
+com\artemstukalenko\tournaments\task\service\implementators\UserRoleServiceImpl.class
+com\artemstukalenko\tournaments\task\service\UserRoleService.class
+com\artemstukalenko\tournaments\task\dao\implementators\UserDAOImpl.class
+com\artemstukalenko\tournaments\task\entity\UserRole.class
 com\artemstukalenko\tournaments\task\TournamentsConsoleAppMain.class
+com\artemstukalenko\tournaments\task\entity\User.class
+com\artemstukalenko\tournaments\task\controller\MainController.class
+com\artemstukalenko\tournaments\task\dao\UserRoleDAO.class
+com\artemstukalenko\tournaments\task\dao\implementators\UserRoleDAOImpl.class
+com\artemstukalenko\tournaments\task\dao\UserDAO.class
