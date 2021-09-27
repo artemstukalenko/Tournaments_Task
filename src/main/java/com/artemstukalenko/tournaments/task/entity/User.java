@@ -5,7 +5,7 @@ import java.util.Objects;
 public class User {
 
     private int userId;
-    private int roleId;
+    private UserRole userRole;
     private String name;
     private String username;
     private String password;
@@ -13,8 +13,9 @@ public class User {
 
     public User() {}
 
-    public User(int roleId, String name, String username, String password, boolean isAdmin) {
-        this.roleId = roleId;
+    public User(int userId, UserRole userRole, String name, String username, String password, boolean isAdmin) {
+        this.userId = userId;
+        this.userRole = userRole;
         this.name = name;
         this.username = username;
         this.password = password;
@@ -26,19 +27,19 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && roleId == user.roleId && isAdmin == user.isAdmin && Objects.equals(name, user.name) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        return userId == user.userId && isAdmin == user.isAdmin && Objects.equals(userRole, user.userRole) && Objects.equals(name, user.name) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, roleId, name, username, password, isAdmin);
+        return Objects.hash(userId, userRole, name, username, password, isAdmin);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", roleId=" + roleId +
+                ", userRole=" + userRole +
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -54,12 +55,12 @@ public class User {
         this.userId = userId;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public String getName() {
