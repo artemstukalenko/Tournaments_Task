@@ -96,24 +96,6 @@ public class UserRoleController extends Controller {
         return newRole;
     }
 
-    @Override
-    protected void setUserCommand(String input) {
-        switch (input) {
-            case "R":
-                userCommand = UserChoice.SHOW_ALL;
-                break;
-            case "A":
-                userCommand = UserChoice.ADD_NEW_ENTITY;
-                break;
-            case "D":
-                userCommand = UserChoice.DELETE_ENTITY;
-                break;
-            case "U":
-                userCommand = UserChoice.UPDATE_ENTITY;
-                break;
-        }
-    }
-
     public void showAllUserRoles() {
         try {
             System.out.println(userRoleService.getAllUserRoles());

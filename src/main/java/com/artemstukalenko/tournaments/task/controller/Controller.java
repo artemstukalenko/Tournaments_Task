@@ -45,6 +45,21 @@ public abstract class Controller implements UserInputMatcher {
         return desiredId;
     }
 
-    protected abstract void setUserCommand(String input);
+    protected void setUserCommand(String input) {
+        switch (input) {
+            case "R":
+                userCommand = UserChoice.SHOW_ALL;
+                break;
+            case "D":
+                userCommand = UserChoice.DELETE_ENTITY;
+                break;
+            case "U":
+                userCommand = UserChoice.UPDATE_ENTITY;
+                break;
+            case "A":
+                userCommand = UserChoice.ADD_NEW_ENTITY;
+                break;
+        }
+    }
 
 }

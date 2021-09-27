@@ -33,15 +33,6 @@ public class UserController extends Controller {
         }
     }
 
-    @Override
-    protected void setUserCommand(String input) {
-        switch (input) {
-            case "R":
-                userCommand = UserChoice.SHOW_ALL;
-                break;
-        }
-    }
-
     public void showAllUsers() {
 
         try {
