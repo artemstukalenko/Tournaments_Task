@@ -1,7 +1,7 @@
 package com.artemstukalenko.tournaments.task.controller;
 
 public interface TextConstants {
-    String GREETING = "Hello! Please, choose an entity to work with! Type R for roles; U for users; P for players;";
+    String GREETING = "Hello! Please, choose an entity to work with! Type R for roles; U for users; P for players; T for teams";
     String WRONG_INPUT = "Wrong input!";
     String WHAT_TO_DO_WITH = "What do you want to do with this entity? Type R to read; A to add; D to delete; U to update";
     String ENTITY_ADDED = "Entity added successfully!";
