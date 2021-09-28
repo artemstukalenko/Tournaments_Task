@@ -38,4 +38,13 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public User findUserById(int userId) {
+        try {
+            return userDAO.findUserById(userId);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 }

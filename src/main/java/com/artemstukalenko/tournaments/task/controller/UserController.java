@@ -32,19 +32,11 @@ public class UserController extends EntityController {
 
     @Override
     protected void processEntityAddition() {
-        System.out.println(ROLE_FOR_NEW_USER);
-        UserRole newUsersRole = userRoleService.findRoleById(listenToInputForID());
-
-        System.out.println(NAME_FOR_NEW_USER);
-        String newUsersName = listenToInputForString();
-
-        System.out.println(USERNAME_FOR_NEW_USER);
-        String newUsersUsername = listenToInputForString();
-
-        System.out.println(PASSWORD_FOR_NEW_USER);
-        String newUsersPassword = listenToInputForPassword();
-
-        userService.addNewUser(new User (newUsersRole, newUsersName, newUsersUsername, newUsersPassword));
+        if (userService.addNewUser(constructNewUser())) {
+            System.out.println(ENTITY_ADDED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     private String listenToInputForPassword() {
@@ -75,6 +67,12 @@ public class UserController extends EntityController {
 
     @Override
     protected void processEntityUpdate() {
+        System.out.println(UPDATE_ENTITY_REQUEST);
+
+        int userToUpdateId = listenToInputForID();
+
+        System.out.println(UPDATE_ENTITY_OBJECT + userService.findUserById(userToUpdateId));
+
 
     }
 
@@ -87,6 +85,22 @@ public class UserController extends EntityController {
             e.printStackTrace();
         }
 
+    }
+
+    private User constructNewUser() {
+        System.out.println(ROLE_FOR_NEW_USER);
+        UserRole newUsersRole = userRoleService.findRoleById(listenToInputForID());
+
+        System.out.println(NAME_FOR_NEW_USER);
+        String newUsersName = listenToInputForString();
+
+        System.out.println(USERNAME_FOR_NEW_USER);
+        String newUsersUsername = listenToInputForString();
+
+        System.out.println(PASSWORD_FOR_NEW_USER);
+        String newUsersPassword = listenToInputForPassword();
+
+        return new User (newUsersRole, newUsersName, newUsersUsername, newUsersPassword);
     }
 
 }

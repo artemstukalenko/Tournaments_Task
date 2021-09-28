@@ -35,14 +35,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int userId = resultSet.getInt("user_id");
-                UserRole userRole = userRoleService.findRoleById(resultSet.getInt("role_id"));
-                String name = resultSet.getString("name");
-                String username = resultSet.getString("user_name");
-                String password = resultSet.getString("password");
-                boolean isAdmin = resultSet.getBoolean("is_admin");
-
-                allUsers.add(new User(userId, userRole, name, username, password, isAdmin));
+                allUsers.add(constructUserFromDBData());
             }
 
             return allUsers;
@@ -98,8 +91,43 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         }
     }
 
+    @Override
+    public User findUserById(int userId) throws SQLException {
+        User soughtUser = null;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForGettingUserById = "select * from users where user_id = ?";
+            statement = connection.prepareStatement(statementForGettingUserById);
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet != null) {
+                resultSet.next();
+
+                soughtUser = constructUserFromDBData();
+            }
+
+            return soughtUser;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
     private void setConnectionWithNoAutoCommit() throws SQLException {
         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         connection.setAutoCommit(false);
+    }
+
+    private User constructUserFromDBData() throws SQLException {
+        int foundUserId = resultSet.getInt("user_id");
+        UserRole foundRole = userRoleService.findRoleById(resultSet.getInt("role_id"));
+        String foundName = resultSet.getString("name");
+        String foundUsername = resultSet.getString("user_name");
+        String foundPassword = resultSet.getString("password");
+        boolean isAdmin = resultSet.getBoolean("is_admin");
+
+        return new User(foundUserId, foundRole, foundName, foundUsername,
+                foundPassword, isAdmin);
     }
 }
