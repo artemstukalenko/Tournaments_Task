@@ -2,6 +2,7 @@ package com.artemstukalenko.tournaments.task.dao.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.ConnectionCloser;
 import com.artemstukalenko.tournaments.task.dao.TeamDAO;
+import com.artemstukalenko.tournaments.task.entity.Player;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.service.UserService;
@@ -65,7 +66,24 @@ public class TeamDAOImpl implements TeamDAO, ConnectionCloser {
 
     @Override
     public boolean addNewTeam(Team teamToAdd) throws SQLException {
-        return false;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForAddingTeam = "insert into teams (user_id, team_name) " +
+                    "values (?, ?)";
+            statement = connection.prepareStatement(statementForAddingTeam);
+            setValuesToStatementFromObject(teamToAdd);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     @Override
@@ -89,5 +107,10 @@ public class TeamDAOImpl implements TeamDAO, ConnectionCloser {
         String name = resultSet.getString("team_name");
 
         return new Team(id, user, name);
+    }
+
+    private void setValuesToStatementFromObject(Team team) throws SQLException {
+        statement.setInt(1, team.getUser().getUserId());
+        statement.setString(2, team.getTeamName());
     }
 }

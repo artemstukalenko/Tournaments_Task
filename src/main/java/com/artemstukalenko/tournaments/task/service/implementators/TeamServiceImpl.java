@@ -32,7 +32,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public boolean addNewTeam(Team teamToAdd) {
-        return false;
+        try {
+            return teamDAO.addNewTeam(teamToAdd);
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     @Override

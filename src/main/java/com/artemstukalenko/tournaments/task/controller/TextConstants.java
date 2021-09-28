@@ -19,6 +19,9 @@ public interface TextConstants {
     String PASSWORD_FOR_NEW_USER = "Enter password for new user: ";
     String PASSWORD_LENGTH_MESSAGE = "Password's length has to be at least 4 symbols";
 
-    String NAME_FOR_NEW_PLAYER = "Enter a name for new player";
-    String USER_ID_FOR_NEW_PLAYER = "Enter user id for new player";
+    String NAME_FOR_NEW_PLAYER = "Enter a name for new player: ";
+    String USER_ID_FOR_NEW_PLAYER = "Enter user id for new player: ";
+
+    String USER_ID_FOR_NEW_TEAM = "Enter user id for new team: ";
+    String NAME_FOR_NEW_TEAM = "Enter name for new team: ";
 }
