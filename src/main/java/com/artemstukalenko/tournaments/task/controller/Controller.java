@@ -42,6 +42,21 @@ public abstract class Controller implements UserInputMatcher {
         return "";
     }
 
+    protected String listenToInput() {
+
+        while (scanner.hasNext()) {
+            String currentInput = scanner.next();
+
+            if(currentInput.length() > 4) {
+                return currentInput;
+            } else {
+                System.out.println(WRONG_INPUT);
+            }
+        }
+
+        return "";
+    }
+
     protected abstract void setUserCommand(String input);
 
     protected abstract void responseToCommand();

@@ -24,4 +24,22 @@ public class PlayerServiceImpl implements PlayerService {
             return null;
         }
     }
+
+    @Override
+    public Player findPlayerById(int playerId) {
+        try {
+            return playerDAO.findPlayerById(playerId);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean addNewPlayer(Player playerToAdd) {
+        try {
+            return playerDAO.addNewPlayer(playerToAdd);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }

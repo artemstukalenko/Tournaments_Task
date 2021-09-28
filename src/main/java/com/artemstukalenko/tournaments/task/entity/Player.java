@@ -16,6 +16,11 @@ public class Player {
         this.user = user;
     }
 
+    public Player(String playerName, User user) {
+        this.playerName = playerName;
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

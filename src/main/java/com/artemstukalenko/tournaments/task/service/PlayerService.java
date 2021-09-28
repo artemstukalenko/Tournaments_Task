@@ -9,4 +9,7 @@ public interface PlayerService {
 
     List<Player> getAllPlayers();
 
+    Player findPlayerById(int playerId);
+
+    boolean addNewPlayer(Player playerToAdd);
 }

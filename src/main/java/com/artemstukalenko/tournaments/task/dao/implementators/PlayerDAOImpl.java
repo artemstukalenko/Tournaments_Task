@@ -43,12 +43,46 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
 
     @Override
     public Player findPlayerById(int playerId) throws SQLException {
-        return null;
+        Player soughtPlayer = null;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForGettingUserById = "select * from users where user_id = ?";
+            statement = connection.prepareStatement(statementForGettingUserById);
+            statement.setInt(1, playerId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet != null) {
+                resultSet.next();
+                soughtPlayer = constructNewPlayer();
+            }
+
+            return soughtPlayer;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     @Override
     public boolean addNewPlayer(Player playerToAdd) throws SQLException {
-        return false;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForAddingPlayer = "insert into players (player_name, user_id) " +
+                    "values (?, ?)";
+            statement = connection.prepareStatement(statementForAddingPlayer);
+            setValuesToStatementFromObject(playerToAdd);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     @Override
@@ -59,6 +93,11 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
     @Override
     public boolean updatePlayerInDB(int playerToUpdate, Player updatedPlayer) throws SQLException {
         return false;
+    }
+
+    private void setValuesToStatementFromObject(Player player) throws SQLException {
+        statement.setString(1, player.getPlayerName());
+        statement.setInt(2, player.getUser().getUserId());
     }
 
     private void setConnectionWithNoAutoCommit() throws SQLException {
