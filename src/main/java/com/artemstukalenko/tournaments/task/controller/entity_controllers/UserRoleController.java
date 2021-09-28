@@ -1,5 +1,6 @@
-package com.artemstukalenko.tournaments.task.controller;
+package com.artemstukalenko.tournaments.task.controller.entity_controllers;
 
+import com.artemstukalenko.tournaments.task.controller.entity_controllers.EntityController;
 import com.artemstukalenko.tournaments.task.entity.UserRole;
 import com.artemstukalenko.tournaments.task.service.UserRoleService;
 import com.artemstukalenko.tournaments.task.service.implementators.UserRoleServiceImpl;

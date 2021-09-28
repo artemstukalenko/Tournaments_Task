@@ -1,4 +1,7 @@
-package com.artemstukalenko.tournaments.task.controller;
+package com.artemstukalenko.tournaments.task.controller.entity_controllers;
+
+import com.artemstukalenko.tournaments.task.controller.Controller;
+import com.artemstukalenko.tournaments.task.controller.UserChoice;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.WRONG_INPUT;
 

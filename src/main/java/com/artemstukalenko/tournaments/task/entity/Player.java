@@ -6,19 +6,14 @@ public class Player {
 
     private int id;
     private String playerName;
-    private int userId;
+    private User user;
 
     public Player() {}
 
-    public Player(int id, String playerName, int userId) {
+    public Player(int id, String playerName, User user) {
         this.id = id;
         this.playerName = playerName;
-        this.userId = userId;
-    }
-
-    public Player(String playerName, int userId) {
-        this.playerName = playerName;
-        this.userId = userId;
+        this.user = user;
     }
 
     @Override
@@ -26,12 +21,12 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return id == player.id && userId == player.userId && Objects.equals(playerName, player.playerName);
+        return id == player.id && Objects.equals(playerName, player.playerName) && Objects.equals(user, player.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, playerName, userId);
+        return Objects.hash(id, playerName, user);
     }
 
     @Override
@@ -39,7 +34,7 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", playerName='" + playerName + '\'' +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 
@@ -59,11 +54,11 @@ public class Player {
         this.playerName = playerName;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

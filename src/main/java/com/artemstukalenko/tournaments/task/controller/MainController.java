@@ -1,11 +1,22 @@
 package com.artemstukalenko.tournaments.task.controller;
 
+import com.artemstukalenko.tournaments.task.controller.entity_controllers.PlayerController;
+import com.artemstukalenko.tournaments.task.controller.entity_controllers.UserController;
+import com.artemstukalenko.tournaments.task.controller.entity_controllers.UserRoleController;
+
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
 public class MainController extends Controller {
 
     private UserRoleController userRoleController;
     private UserController userController;
+    private PlayerController playerController;
+
+    public MainController() {
+        this.userRoleController = new UserRoleController();
+        this.userController = new UserController();
+        this.playerController = new PlayerController();
+    }
 
     @Override
     public void processUser() {
@@ -25,6 +36,9 @@ public class MainController extends Controller {
             case WORK_WITH_USERS:
                 userController.processUser();
                 break;
+            case WORK_WITH_PLAYERS:
+                playerController.processUser();
+                break;
         }
     }
 
@@ -37,11 +51,9 @@ public class MainController extends Controller {
             case "U":
                 userCommand = UserChoice.WORK_WITH_USERS;
                 break;
+            case "P":
+                userCommand = UserChoice.WORK_WITH_PLAYERS;
+                break;
         }
-    }
-
-    public MainController() {
-        this.userRoleController = new UserRoleController();
-        this.userController = new UserController();
     }
 }
