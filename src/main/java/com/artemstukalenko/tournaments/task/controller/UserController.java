@@ -1,6 +1,7 @@
 package com.artemstukalenko.tournaments.task.controller;
 
 import com.artemstukalenko.tournaments.task.entity.User;
+import com.artemstukalenko.tournaments.task.entity.UserRole;
 import com.artemstukalenko.tournaments.task.service.UserRoleService;
 import com.artemstukalenko.tournaments.task.service.UserService;
 import com.artemstukalenko.tournaments.task.service.implementators.UserRoleServiceImpl;
@@ -31,21 +32,19 @@ public class UserController extends EntityController {
 
     @Override
     protected void processEntityAddition() {
-        User newUser = new User();
-
         System.out.println(ROLE_FOR_NEW_USER);
-        newUser.setUserRole(userRoleService.findRoleById(listenToInputForID()));
+        UserRole newUsersRole = userRoleService.findRoleById(listenToInputForID());
 
         System.out.println(NAME_FOR_NEW_USER);
-        newUser.setName(listenToInputForString());
+        String newUsersName = listenToInputForString();
 
         System.out.println(USERNAME_FOR_NEW_USER);
-        newUser.setUsername(listenToInputForString());
+        String newUsersUsername = listenToInputForString();
 
         System.out.println(PASSWORD_FOR_NEW_USER);
-        newUser.setPassword(listenToInputForPassword());
+        String newUsersPassword = listenToInputForPassword();
 
-        userService.addNewUser(newUser);
+        userService.addNewUser(new User (newUsersRole, newUsersName, newUsersUsername, newUsersPassword));
     }
 
     private String listenToInputForPassword() {
