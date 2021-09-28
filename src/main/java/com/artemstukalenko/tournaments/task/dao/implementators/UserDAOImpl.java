@@ -117,9 +117,10 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         try {
             setConnectionWithNoAutoCommit();
             String statementToUpdateUser = "update users set role_id = ?, name = ?, user_name = ?, " +
-                    "password = ?, is_admin = ?";
+                    "password = ?, is_admin = ? where user_id = ?";
             statement = connection.prepareStatement(statementToUpdateUser);
             setValuesToStatementFromObject(updatedUserObject);
+            statement.setInt(6, userToUpdateId);
             statement.executeUpdate();
 
             connection.commit();
