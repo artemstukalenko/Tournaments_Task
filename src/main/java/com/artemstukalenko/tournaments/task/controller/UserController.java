@@ -73,6 +73,13 @@ public class UserController extends EntityController {
 
         System.out.println(UPDATE_ENTITY_OBJECT + userService.findUserById(userToUpdateId));
 
+        User updatedUser = constructNewUser();
+
+        if (userService.updateUser(userToUpdateId, updatedUser)) {
+            System.out.println(UPDATED_SUCCESSFULLY + userService.findUserById(userToUpdateId));
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
 
     }
 

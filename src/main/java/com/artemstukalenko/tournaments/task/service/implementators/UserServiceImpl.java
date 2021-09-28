@@ -47,4 +47,13 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public boolean updateUser(int userToUpdateId, User updatedUserObject) {
+        try {
+            return userDAO.updateUser(userToUpdateId, updatedUserObject);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }

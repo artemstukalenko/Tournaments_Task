@@ -52,11 +52,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
             String statementForAddingNewUser = "insert into users (role_id, name, user_name, password, is_admin)" +
                     "values (?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(statementForAddingNewUser);
-            statement.setInt(1, userToAdd.getUserRole().getRoleId());
-            statement.setString(2, userToAdd.getName());
-            statement.setString(3, userToAdd.getUsername());
-            statement.setString(4, userToAdd.getPassword());
-            statement.setBoolean(5, userToAdd.isAdmin());
+            setValuesToStatementFromObject(userToAdd);
 
             statement.executeUpdate();
 
@@ -112,6 +108,36 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         } finally {
             close(connection, statement, resultSet);
         }
+    }
+
+    @Override
+     public boolean updateUser(int userToUpdateId,
+                               User updatedUserObject) throws SQLException {
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementToUpdateUser = "update users set role_id = ?, name = ?, user_name = ?, " +
+                    "password = ?, is_admin = ?";
+            statement = connection.prepareStatement(statementToUpdateUser);
+            setValuesToStatementFromObject(updatedUserObject);
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    private void setValuesToStatementFromObject(User user) throws SQLException {
+        statement.setInt(1, user.getUserRole().getRoleId());
+        statement.setString(2, user.getName());
+        statement.setString(3, user.getUsername());
+        statement.setString(4, user.getPassword());
+        statement.setBoolean(5, user.isAdmin());
     }
 
     private void setConnectionWithNoAutoCommit() throws SQLException {

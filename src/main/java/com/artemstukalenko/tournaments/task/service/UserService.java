@@ -15,4 +15,6 @@ public interface UserService {
     boolean deleteUserById(int userId);
 
     User findUserById(int userId);
+
+    boolean updateUser(int userToUpdateId, User updatedUserObject);
 }

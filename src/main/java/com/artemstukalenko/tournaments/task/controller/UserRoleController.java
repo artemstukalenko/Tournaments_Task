@@ -37,9 +37,11 @@ public class UserRoleController extends EntityController {
 
         UserRole updatedRoleObject = constructNewRole();
 
-        userRoleService.updateRole(roleToUpdate, updatedRoleObject);
-
-        System.out.println(UPDATED_SUCCESSFULLY + userRoleService.findRoleById(roleToUpdate));
+        if(userRoleService.updateRole(roleToUpdate, updatedRoleObject)) {
+            System.out.println(UPDATED_SUCCESSFULLY + userRoleService.findRoleById(roleToUpdate));
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     @Override
