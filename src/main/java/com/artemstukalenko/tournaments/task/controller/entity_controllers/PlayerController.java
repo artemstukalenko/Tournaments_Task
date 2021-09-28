@@ -44,7 +44,13 @@ public class PlayerController extends EntityController {
 
     @Override
     protected void processEntityDeletion() {
+        System.out.println(DELETE_BY_ID);
 
+        if (playerService.deletePlayerById(listenToInputForID())) {
+            System.out.println(ENTITY_DELETED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     @Override

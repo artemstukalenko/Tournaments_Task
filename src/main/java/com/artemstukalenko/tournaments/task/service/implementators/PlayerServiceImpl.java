@@ -42,4 +42,13 @@ public class PlayerServiceImpl implements PlayerService {
             return false;
         }
     }
+
+    @Override
+    public boolean deletePlayerById(int playerToDeleteId) {
+        try {
+            return playerDAO.deletePlayerById(playerToDeleteId);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }

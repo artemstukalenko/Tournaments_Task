@@ -87,7 +87,23 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
 
     @Override
     public boolean deletePlayerById(int playerId) throws SQLException {
-        return false;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingPlayer = "delete from players where player_id = ?";
+            statement = connection.prepareStatement(statementForDeletingPlayer);
+            statement.setInt(1, playerId);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     @Override

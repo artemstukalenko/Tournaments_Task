@@ -12,4 +12,6 @@ public interface PlayerService {
     Player findPlayerById(int playerId);
 
     boolean addNewPlayer(Player playerToAdd);
+
+    boolean deletePlayerById(int playerToDeleteId);
 }
