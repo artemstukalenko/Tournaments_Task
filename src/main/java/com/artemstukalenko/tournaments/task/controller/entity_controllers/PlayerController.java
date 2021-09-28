@@ -55,7 +55,19 @@ public class PlayerController extends EntityController {
 
     @Override
     protected void processEntityUpdate() {
+        System.out.println(UPDATE_ENTITY_REQUEST);
 
+        int playerToUpdateId = listenToInputForID();
+
+        System.out.println(UPDATE_ENTITY_OBJECT + playerService.findPlayerById(playerToUpdateId));
+
+        Player updatedPlayer = constructNewPlayer();
+
+        if (playerService.updatePlayer(playerToUpdateId, updatedPlayer)) {
+            System.out.println(UPDATED_SUCCESSFULLY + playerService.findPlayerById(playerToUpdateId));
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     private Player constructNewPlayer() {

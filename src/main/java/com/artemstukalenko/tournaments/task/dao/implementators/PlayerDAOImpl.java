@@ -47,7 +47,7 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
 
         try {
             setConnectionWithNoAutoCommit();
-            String statementForGettingUserById = "select * from users where user_id = ?";
+            String statementForGettingUserById = "select * from players where player_id = ?";
             statement = connection.prepareStatement(statementForGettingUserById);
             statement.setInt(1, playerId);
             resultSet = statement.executeQuery();
@@ -108,7 +108,24 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
 
     @Override
     public boolean updatePlayerInDB(int playerToUpdate, Player updatedPlayer) throws SQLException {
-        return false;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementToUpdatePlayer = "update players set player_name = ?, user_id = ? " +
+                    "where player_id = ?";
+            statement = connection.prepareStatement(statementToUpdatePlayer);
+            setValuesToStatementFromObject(updatedPlayer);
+            statement.setInt(3, playerToUpdate);
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     private void setValuesToStatementFromObject(Player player) throws SQLException {

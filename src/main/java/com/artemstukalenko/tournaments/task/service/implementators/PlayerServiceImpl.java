@@ -51,4 +51,13 @@ public class PlayerServiceImpl implements PlayerService {
             return false;
         }
     }
+
+    @Override
+    public boolean updatePlayer(int playerToUpdateId, Player updatedPlayerObject) {
+        try {
+            return playerDAO.updatePlayerInDB(playerToUpdateId, updatedPlayerObject);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }
