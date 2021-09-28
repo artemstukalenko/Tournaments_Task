@@ -44,7 +44,7 @@ public class TeamController extends EntityController {
 
     @Override
     protected void processEntityDeletion() {
-        System.out.println(UPDATE_ENTITY_REQUEST);
+        System.out.println(DELETE_BY_ID);
 
         if (teamService.deleteTeamById(listenToInputForID())) {
             System.out.println(ENTITY_DELETED);
