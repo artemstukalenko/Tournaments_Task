@@ -28,7 +28,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         List<User> allUsers = new ArrayList<>();
 
         try {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            setConnectionWithNoAutoCommit();
 
             String statementForGettingAllUsers = "select * from users";
             statement = connection.prepareStatement(statementForGettingAllUsers);
@@ -55,8 +55,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
     public boolean addNewUser(User userToAdd) throws SQLException {
 
         try {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            connection.setAutoCommit(false);
+            setConnectionWithNoAutoCommit();
             String statementForAddingNewUser = "insert into users (role_id, name, user_name, password, is_admin)" +
                     "values (?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(statementForAddingNewUser);
@@ -76,5 +75,31 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         } finally {
             close(connection, statement, resultSet);
         }
+    }
+
+    @Override
+    public boolean deleteUserById(int userId) throws SQLException {
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingUser = "delete from users where user_id = ?";
+            statement = connection.prepareStatement(statementForDeletingUser);
+            statement.setInt(1, userId);
+
+            statement.executeUpdate();
+            connection.commit();
+            return true;
+
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    private void setConnectionWithNoAutoCommit() throws SQLException {
+        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        connection.setAutoCommit(false);
     }
 }

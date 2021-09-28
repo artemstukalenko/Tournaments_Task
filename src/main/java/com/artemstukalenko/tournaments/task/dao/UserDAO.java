@@ -11,4 +11,5 @@ public interface UserDAO {
 
     boolean addNewUser(User userToAdd) throws SQLException;
 
+    boolean deleteUserById(int userId) throws SQLException;
 }

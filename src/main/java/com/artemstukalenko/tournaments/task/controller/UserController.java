@@ -64,7 +64,13 @@ public class UserController extends EntityController {
 
     @Override
     protected void processEntityDeletion() {
+        System.out.println(DELETE_BY_ID);
 
+        if (userService.deleteUserById(listenToInputForID())) {
+            System.out.println(ENTITY_DELETED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     @Override

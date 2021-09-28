@@ -29,4 +29,13 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteUserById(int userId) {
+        try {
+            return userDAO.deleteUserById(userId);
+        } catch (SQLException e) {
+            return false;
+        }
+    }
 }
