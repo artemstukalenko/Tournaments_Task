@@ -5,6 +5,7 @@ import com.artemstukalenko.tournaments.task.dao.TeamDAO;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.service.UserService;
+import com.artemstukalenko.tournaments.task.service.implementators.UserServiceImpl;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class TeamDAOImpl implements TeamDAO, ConnectionCloser {
     private PreparedStatement statement;
     private ResultSet resultSet;
 
-    private UserService userService;
+    private UserService userService = new UserServiceImpl();
 
     @Override
     public List<Team> getAllTeams() throws SQLException {
@@ -42,7 +43,24 @@ public class TeamDAOImpl implements TeamDAO, ConnectionCloser {
 
     @Override
     public Team findTeamById(int teamId) throws SQLException {
-        return null;
+        Team soughtTeam = null;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForGettingTeamById = "select * from teams where team_id = ?";
+            statement = connection.prepareStatement(statementForGettingTeamById);
+            statement.setInt(1, teamId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet != null) {
+                resultSet.next();
+                soughtTeam = constructTeam();
+            }
+
+            return soughtTeam;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     @Override
