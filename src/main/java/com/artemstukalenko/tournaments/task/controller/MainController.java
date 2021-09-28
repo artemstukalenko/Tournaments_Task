@@ -1,9 +1,6 @@
 package com.artemstukalenko.tournaments.task.controller;
 
-import com.artemstukalenko.tournaments.task.controller.entity_controllers.PlayerController;
-import com.artemstukalenko.tournaments.task.controller.entity_controllers.TeamController;
-import com.artemstukalenko.tournaments.task.controller.entity_controllers.UserController;
-import com.artemstukalenko.tournaments.task.controller.entity_controllers.UserRoleController;
+import com.artemstukalenko.tournaments.task.controller.entity_controllers.*;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
@@ -13,12 +10,14 @@ public class MainController extends Controller {
     private UserController userController;
     private PlayerController playerController;
     private TeamController teamController;
+    private TeamPlayerController teamPlayerController;
 
     public MainController() {
         this.userRoleController = new UserRoleController();
         this.userController = new UserController();
         this.playerController = new PlayerController();
         this.teamController = new TeamController();
+        this.teamPlayerController = new TeamPlayerController();
     }
 
     @Override
@@ -45,7 +44,9 @@ public class MainController extends Controller {
             case WORK_WITH_TEAMS:
                 teamController.processUser();
                 break;
-
+            case WORK_WITH_TEAMPLAYERS:
+                teamPlayerController.processUser();
+                break;
         }
     }
 
@@ -64,6 +65,10 @@ public class MainController extends Controller {
             case "T":
                 userCommand = UserChoice.WORK_WITH_TEAMS;
                 break;
+            case "TP":
+                userCommand = UserChoice.WORK_WITH_TEAMPLAYERS;
+                break;
+
         }
     }
 }
