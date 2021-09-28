@@ -27,7 +27,11 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team findTeamById(int teamId) {
-        return null;
+        try {
+            return teamDAO.findTeamById(teamId);
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     @Override
@@ -41,11 +45,19 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public boolean deleteTeamById(int teamId) {
-        return false;
+        try {
+            return teamDAO.deleteTeamById(teamId);
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
     @Override
     public boolean updateTeamInDB(int teamToUpdate, Team updatedTeam) {
-        return false;
+        try {
+            return teamDAO.updateTeamInDB(teamToUpdate, updatedTeam);
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }

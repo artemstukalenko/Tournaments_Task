@@ -88,12 +88,45 @@ public class TeamDAOImpl implements TeamDAO, ConnectionCloser {
 
     @Override
     public boolean deleteTeamById(int teamId) throws SQLException {
-        return false;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingTeam = "delete from teams where team_id = ?";
+            statement = connection.prepareStatement(statementForDeletingTeam);
+            statement.setInt(1, teamId);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     @Override
     public boolean updateTeamInDB(int teamToUpdate, Team updatedTeam) throws SQLException {
-        return false;
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForUpdatingTeam = "update teams set user_id = ?, team_name = ? " +
+                    "where team_id = ?";
+            statement = connection.prepareStatement(statementForUpdatingTeam);
+            setValuesToStatementFromObject(updatedTeam);
+            statement.setInt(3, teamToUpdate);
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
     }
 
     private void setConnectionWithNoAutoCommit() throws SQLException {

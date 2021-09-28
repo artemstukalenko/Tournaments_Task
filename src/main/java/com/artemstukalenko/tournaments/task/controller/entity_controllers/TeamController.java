@@ -42,6 +42,34 @@ public class TeamController extends EntityController {
         }
     }
 
+    @Override
+    protected void processEntityDeletion() {
+        System.out.println(UPDATE_ENTITY_REQUEST);
+
+        if (teamService.deleteTeamById(listenToInputForID())) {
+            System.out.println(ENTITY_DELETED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    protected void processEntityUpdate() {
+        System.out.println(UPDATE_ENTITY_REQUEST);
+
+        int teamToUpdateId = listenToInputForID();
+
+        System.out.println(UPDATE_ENTITY_OBJECT + teamService.findTeamById(teamToUpdateId));
+
+        Team updatedTeam = constructNewTeam();
+
+        if (teamService.updateTeamInDB(teamToUpdateId, updatedTeam)) {
+            System.out.println(UPDATED_SUCCESSFULLY + teamService.findTeamById(teamToUpdateId));
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
     private Team constructNewTeam() {
         System.out.println(USER_ID_FOR_NEW_TEAM);
         User user = userService.findUserById(listenToInputForID());
@@ -50,15 +78,5 @@ public class TeamController extends EntityController {
         String name = listenToInput();
 
         return new Team(user, name);
-    }
-
-    @Override
-    protected void processEntityDeletion() {
-
-    }
-
-    @Override
-    protected void processEntityUpdate() {
-
     }
 }
