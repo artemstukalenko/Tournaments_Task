@@ -2,6 +2,7 @@ package com.artemstukalenko.tournaments.task.controller.entity_controllers;
 
 import com.artemstukalenko.tournaments.task.controller.Controller;
 import com.artemstukalenko.tournaments.task.controller.UserChoice;
+import com.artemstukalenko.tournaments.task.entity.Entity;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
@@ -75,4 +76,6 @@ public abstract class EntityController extends Controller {
     protected abstract void processEntityDeletion();
 
     protected abstract void processEntityUpdate();
+
+    protected abstract Entity constructNewEntity();
 }

@@ -2,7 +2,7 @@ package com.artemstukalenko.tournaments.task.entity;
 
 import java.util.Objects;
 
-public class Schedule {
+public class Schedule extends Entity {
 
     private int scheduleId;
     private Tournament tournament;

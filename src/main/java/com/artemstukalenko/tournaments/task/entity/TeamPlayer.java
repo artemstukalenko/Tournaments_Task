@@ -2,7 +2,7 @@ package com.artemstukalenko.tournaments.task.entity;
 
 import java.util.Objects;
 
-public class TeamPlayer {
+public class TeamPlayer extends Entity {
 
     private int teamPlayerId;
     private Team team;

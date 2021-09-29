@@ -2,7 +2,7 @@ package com.artemstukalenko.tournaments.task.entity;
 
 import java.util.Objects;
 
-public class UserRole {
+public class UserRole extends Entity {
 
     private int roleId;
     private String roleName;

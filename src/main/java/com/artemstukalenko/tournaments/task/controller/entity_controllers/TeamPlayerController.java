@@ -31,7 +31,7 @@ public class TeamPlayerController extends EntityController {
 
     @Override
     protected void processEntityAddition() {
-        if (teamPlayerService.addNewTeamPlayer(constructNewTeamPlayer())) {
+        if (teamPlayerService.addNewTeamPlayer(constructNewEntity())) {
             System.out.println(ENTITY_ADDED);
         } else {
             System.out.println(UNEXPECTED_ERROR_OCCURRED);
@@ -58,7 +58,7 @@ public class TeamPlayerController extends EntityController {
         System.out.println(UPDATE_ENTITY_OBJECT +
                 teamPlayerService.findTeamPlayerById(teamPlayerToUpdateId));
 
-        TeamPlayer updatedTeamPlayer = constructNewTeamPlayer();
+        TeamPlayer updatedTeamPlayer = constructNewEntity();
 
         if (teamPlayerService.updateTeamPlayerInDB(teamPlayerToUpdateId, updatedTeamPlayer)) {
             System.out.println(UPDATED_SUCCESSFULLY + teamPlayerService
@@ -68,7 +68,8 @@ public class TeamPlayerController extends EntityController {
         }
     }
 
-    private TeamPlayer constructNewTeamPlayer() {
+    @Override
+    protected TeamPlayer constructNewEntity() {
         System.out.println(TEAM_ID_FOR_TEAMPLAYER);
         Team team = teamService.findTeamById(listenToInputForID());
 

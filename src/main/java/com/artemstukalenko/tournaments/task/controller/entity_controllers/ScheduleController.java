@@ -31,7 +31,7 @@ public class ScheduleController extends EntityController {
 
     @Override
     protected void processEntityAddition() {
-        if (scheduleService.addNewSchedule(constructNewSchedule())) {
+        if (scheduleService.addNewSchedule(constructNewEntity())) {
             System.out.println(ENTITY_ADDED);
         } else {
             System.out.println(UNEXPECTED_ERROR_OCCURRED);
@@ -57,7 +57,7 @@ public class ScheduleController extends EntityController {
 
         System.out.println(UPDATE_ENTITY_OBJECT + scheduleService.findScheduleById(scheduleToUpdateId));
 
-        Schedule updatedSchedule = constructNewSchedule();
+        Schedule updatedSchedule = constructNewEntity();
 
         if (scheduleService.updateScheduleInDB(scheduleToUpdateId, updatedSchedule)) {
             System.out.println(UPDATED_SUCCESSFULLY +
@@ -67,7 +67,8 @@ public class ScheduleController extends EntityController {
         }
     }
 
-    private Schedule constructNewSchedule() {
+    @Override
+    protected Schedule constructNewEntity() {
         System.out.println(TOURNAMENT_ID_FOR_NEW_SCHEDULE);
         Tournament tournament = tournamentService.findTournamentById(listenToInputForID());
 

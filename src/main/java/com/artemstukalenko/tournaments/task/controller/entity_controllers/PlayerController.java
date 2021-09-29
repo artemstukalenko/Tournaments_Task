@@ -26,7 +26,7 @@ public class PlayerController extends EntityController {
 
     @Override
     protected void processEntityAddition() {
-        if (playerService.addNewPlayer(constructNewPlayer())) {
+        if (playerService.addNewPlayer(constructNewEntity())) {
             System.out.println(ENTITY_ADDED);
         } else {
             System.out.println(UNEXPECTED_ERROR_OCCURRED);
@@ -52,7 +52,7 @@ public class PlayerController extends EntityController {
 
         System.out.println(UPDATE_ENTITY_OBJECT + playerService.findPlayerById(playerToUpdateId));
 
-        Player updatedPlayer = constructNewPlayer();
+        Player updatedPlayer = constructNewEntity();
 
         if (playerService.updatePlayer(playerToUpdateId, updatedPlayer)) {
             System.out.println(UPDATED_SUCCESSFULLY + playerService.findPlayerById(playerToUpdateId));
@@ -61,7 +61,8 @@ public class PlayerController extends EntityController {
         }
     }
 
-    private Player constructNewPlayer() {
+    @Override
+    protected Player constructNewEntity() {
         System.out.println(NAME_FOR_NEW_PLAYER);
         String nameForNewPlayer = listenToInput();
 

@@ -7,8 +7,6 @@ import com.artemstukalenko.tournaments.task.service.UserService;
 import com.artemstukalenko.tournaments.task.service.implementators.UserRoleServiceImpl;
 import com.artemstukalenko.tournaments.task.service.implementators.UserServiceImpl;
 
-import java.sql.SQLException;
-
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
 public class UserController extends EntityController {
@@ -23,7 +21,7 @@ public class UserController extends EntityController {
 
     @Override
     protected void processEntityAddition() {
-        if (userService.addNewUser(constructNewUser())) {
+        if (userService.addNewUser(constructNewEntity())) {
             System.out.println(ENTITY_ADDED);
         } else {
             System.out.println(UNEXPECTED_ERROR_OCCURRED);
@@ -64,7 +62,7 @@ public class UserController extends EntityController {
 
         System.out.println(UPDATE_ENTITY_OBJECT + userService.findUserById(userToUpdateId));
 
-        User updatedUser = constructNewUser();
+        User updatedUser = constructNewEntity();
 
         if (userService.updateUser(userToUpdateId, updatedUser)) {
             System.out.println(UPDATED_SUCCESSFULLY + userService.findUserById(userToUpdateId));
@@ -79,7 +77,8 @@ public class UserController extends EntityController {
         System.out.println(userService.getAllUsers());
     }
 
-    private User constructNewUser() {
+    @Override
+    protected User constructNewEntity() {
         System.out.println(ROLE_FOR_NEW_USER);
         UserRole newUsersRole = userRoleService.findRoleById(listenToInputForID());
 

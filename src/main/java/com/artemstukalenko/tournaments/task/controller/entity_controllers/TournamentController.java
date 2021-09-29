@@ -1,7 +1,6 @@
 package com.artemstukalenko.tournaments.task.controller.entity_controllers;
 
 import com.artemstukalenko.tournaments.task.controller.RegexContainer;
-import com.artemstukalenko.tournaments.task.controller.TextConstants;
 import com.artemstukalenko.tournaments.task.entity.Tournament;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.service.TournamentService;
@@ -30,7 +29,7 @@ public class TournamentController extends EntityController{
 
     @Override
     protected void processEntityAddition() {
-        if (tournamentService.addNewTournament(constructNewTournament())) {
+        if (tournamentService.addNewTournament(constructNewEntity())) {
             System.out.println(ENTITY_ADDED);
         } else {
             System.out.println(UNEXPECTED_ERROR_OCCURRED);
@@ -56,7 +55,7 @@ public class TournamentController extends EntityController{
 
         System.out.println(UPDATE_ENTITY_OBJECT + tournamentService.findTournamentById(tournamentToUpdateId));
 
-        Tournament updatedTournament = constructNewTournament();
+        Tournament updatedTournament = constructNewEntity();
 
         if (tournamentService.updateTournamentInDB(tournamentToUpdateId, updatedTournament)) {
             System.out.println(UPDATED_SUCCESSFULLY +
@@ -66,7 +65,8 @@ public class TournamentController extends EntityController{
         }
     }
 
-    private Tournament constructNewTournament() {
+    @Override
+    protected Tournament constructNewEntity() {
         System.out.println(USER_ID_FOR_NEW_TOURNAMENT);
         User user = userService.findUserById(listenToInputForID());
 

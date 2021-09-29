@@ -1,11 +1,8 @@
 package com.artemstukalenko.tournaments.task.controller.entity_controllers;
 
-import com.artemstukalenko.tournaments.task.controller.entity_controllers.EntityController;
 import com.artemstukalenko.tournaments.task.entity.UserRole;
 import com.artemstukalenko.tournaments.task.service.UserRoleService;
 import com.artemstukalenko.tournaments.task.service.implementators.UserRoleServiceImpl;
-
-import java.sql.SQLException;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 import static com.artemstukalenko.tournaments.task.controller.RegexContainer.*;
@@ -27,7 +24,7 @@ public class UserRoleController extends EntityController {
         System.out.println(UPDATE_ENTITY_OBJECT + userRoleService.findRoleById(roleToUpdate));
         System.out.println(ENTER_NAME_FOR_NEW_ENTITY);
 
-        UserRole updatedRoleObject = constructNewRole();
+        UserRole updatedRoleObject = constructNewEntity();
 
         if(userRoleService.updateRole(roleToUpdate, updatedRoleObject)) {
             System.out.println(UPDATED_SUCCESSFULLY + userRoleService.findRoleById(roleToUpdate));
@@ -51,14 +48,15 @@ public class UserRoleController extends EntityController {
     protected void processEntityAddition() {
         System.out.println(ENTER_NAME_FOR_NEW_ENTITY);
 
-        if(userRoleService.addNewRole(constructNewRole())) {
+        if(userRoleService.addNewRole(constructNewEntity())) {
             System.out.println(ENTITY_ADDED);
         } else {
             System.out.println(UNEXPECTED_ERROR_OCCURRED);
         }
     }
 
-    private UserRole constructNewRole() {
+    @Override
+    protected UserRole constructNewEntity() {
         UserRole newRole = null;
 
         while (scanner.hasNext()) {
