@@ -1,15 +1,15 @@
 package com.artemstukalenko.tournaments.task.dao.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.EntityDAO;
+import com.artemstukalenko.tournaments.task.dao.PlayerDAO;
+import com.artemstukalenko.tournaments.task.dao.TeamDAO;
 import com.artemstukalenko.tournaments.task.dao.TeamPlayerDAO;
 import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Player;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.TeamPlayer;
 import com.artemstukalenko.tournaments.task.service.PlayerService;
-import com.artemstukalenko.tournaments.task.service.TeamService;
 import com.artemstukalenko.tournaments.task.service.implementators.PlayerServiceImpl;
-import com.artemstukalenko.tournaments.task.service.implementators.TeamServiceImpl;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class TeamPlayerDAOImpl extends EntityDAO implements TeamPlayerDAO {
 
-    private TeamService teamService = new TeamServiceImpl();
-    private PlayerService playerService = new PlayerServiceImpl();
+    private TeamDAO teamDAO = new TeamDAOImpl();
+    private PlayerDAO playerDAO = new PlayerDAOImpl();
 
     @Override
     public List<TeamPlayer> getAllTeamPlayers() throws SQLException {
@@ -129,10 +129,31 @@ public class TeamPlayerDAOImpl extends EntityDAO implements TeamPlayerDAO {
     }
 
     @Override
+    public boolean deleteTeamPlayerByPlayerId(int playerId) throws SQLException {
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingTeamPlayerByPlayerId = "delete from team_players where player_id = ?";
+            statement = connection.prepareStatement(statementForDeletingTeamPlayerByPlayerId);
+            statement.setInt(1, playerId);
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    @Override
     protected TeamPlayer constructNewEntity() throws SQLException {
         int id = resultSet.getInt("tp_id");
-        Team team = teamService.findTeamById(resultSet.getInt("team_id"));
-        Player player = playerService.findPlayerById(resultSet.getInt("player_id"));
+        Team team = teamDAO.findTeamById(resultSet.getInt("team_id"));
+        Player player = playerDAO.findPlayerById(resultSet.getInt("player_id"));
 
         return new TeamPlayer(id, team, player);
     }

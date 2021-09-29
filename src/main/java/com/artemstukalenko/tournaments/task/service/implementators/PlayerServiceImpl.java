@@ -1,7 +1,9 @@
 package com.artemstukalenko.tournaments.task.service.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.PlayerDAO;
+import com.artemstukalenko.tournaments.task.dao.TeamPlayerDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.PlayerDAOImpl;
+import com.artemstukalenko.tournaments.task.dao.implementators.TeamPlayerDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.Player;
 import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
 import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
@@ -13,9 +15,11 @@ import java.util.List;
 public class PlayerServiceImpl implements PlayerService {
 
     private PlayerDAO playerDAO;
+    private TeamPlayerDAO teamPlayerDAO;
 
     public PlayerServiceImpl() {
         this.playerDAO = new PlayerDAOImpl();
+        this.teamPlayerDAO = new TeamPlayerDAOImpl();
     }
 
     @Override
@@ -48,6 +52,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public boolean deletePlayerById(int playerToDeleteId) {
         try {
+            teamPlayerDAO.deleteTeamPlayerByPlayerId(playerToDeleteId);
             return playerDAO.deletePlayerById(playerToDeleteId);
         } catch (SQLException e) {
             throw new CouldNotInteractWithEntityException(e.getMessage());
