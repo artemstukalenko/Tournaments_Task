@@ -1,7 +1,8 @@
 package com.artemstukalenko.tournaments.task.dao.implementators;
 
-import com.artemstukalenko.tournaments.task.dao.ConnectionCloser;
+import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.TeamPlayerDAO;
+import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Player;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.TeamPlayer;
@@ -14,13 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.artemstukalenko.tournaments.task.db_info.DBInfo.*;
-
-public class TeamPlayerDAOImpl implements TeamPlayerDAO, ConnectionCloser {
-
-    private Connection connection;
-    private PreparedStatement statement;
-    private ResultSet resultSet;
+public class TeamPlayerDAOImpl extends EntityDAO implements TeamPlayerDAO {
 
     private TeamService teamService = new TeamServiceImpl();
     private PlayerService playerService = new PlayerServiceImpl();
@@ -36,7 +31,7 @@ public class TeamPlayerDAOImpl implements TeamPlayerDAO, ConnectionCloser {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                allTeamPlayers.add(constructTeamPlayer());
+                allTeamPlayers.add(constructNewEntity());
             }
 
             return allTeamPlayers;
@@ -58,7 +53,7 @@ public class TeamPlayerDAOImpl implements TeamPlayerDAO, ConnectionCloser {
 
             if (resultSet != null) {
                 resultSet.next();
-                soughtTeamPlayer = constructTeamPlayer();
+                soughtTeamPlayer = constructNewEntity();
             }
 
             return soughtTeamPlayer;
@@ -133,12 +128,8 @@ public class TeamPlayerDAOImpl implements TeamPlayerDAO, ConnectionCloser {
         }
     }
 
-    private void setConnectionWithNoAutoCommit() throws SQLException {
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        connection.setAutoCommit(false);
-    }
-
-    private TeamPlayer constructTeamPlayer() throws SQLException {
+    @Override
+    protected TeamPlayer constructNewEntity() throws SQLException {
         int id = resultSet.getInt("tp_id");
         Team team = teamService.findTeamById(resultSet.getInt("team_id"));
         Player player = playerService.findPlayerById(resultSet.getInt("player_id"));
@@ -146,7 +137,10 @@ public class TeamPlayerDAOImpl implements TeamPlayerDAO, ConnectionCloser {
         return new TeamPlayer(id, team, player);
     }
 
-    private void setValuesToStatementFromObject(TeamPlayer teamPlayer) throws SQLException {
+    @Override
+    protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
+        TeamPlayer teamPlayer = (TeamPlayer) entity;
+
         statement.setInt(1, teamPlayer.getTeam().getTeamId());
         statement.setInt(2, teamPlayer.getPlayer().getId());
     }

@@ -1,7 +1,8 @@
 package com.artemstukalenko.tournaments.task.dao.implementators;
 
-import com.artemstukalenko.tournaments.task.dao.ConnectionCloser;
+import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.UserDAO;
+import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.entity.UserRole;
 import com.artemstukalenko.tournaments.task.service.UserRoleService;
@@ -10,13 +11,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.artemstukalenko.tournaments.task.db_info.DBInfo.*;
+public class UserDAOImpl extends EntityDAO implements UserDAO {
 
-public class UserDAOImpl implements UserDAO, ConnectionCloser {
-
-    private Connection connection;
-    private PreparedStatement statement;
-    private ResultSet resultSet;
     private UserRoleService userRoleService;
 
     public UserDAOImpl() {
@@ -35,7 +31,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                allUsers.add(constructUserFromDBData());
+                allUsers.add(constructNewEntity());
             }
 
             return allUsers;
@@ -101,7 +97,7 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
             if (resultSet != null) {
                 resultSet.next();
 
-                soughtUser = constructUserFromDBData();
+                soughtUser = constructNewEntity();
             }
 
             return soughtUser;
@@ -133,7 +129,10 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         }
     }
 
-    private void setValuesToStatementFromObject(User user) throws SQLException {
+    @Override
+    protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
+        User user = (User) entity;
+
         statement.setInt(1, user.getUserRole().getRoleId());
         statement.setString(2, user.getName());
         statement.setString(3, user.getUsername());
@@ -141,12 +140,8 @@ public class UserDAOImpl implements UserDAO, ConnectionCloser {
         statement.setBoolean(5, user.isAdmin());
     }
 
-    private void setConnectionWithNoAutoCommit() throws SQLException {
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        connection.setAutoCommit(false);
-    }
-
-    private User constructUserFromDBData() throws SQLException {
+    @Override
+    protected User constructNewEntity() throws SQLException {
         int foundUserId = resultSet.getInt("user_id");
         UserRole foundRole = userRoleService.findRoleById(resultSet.getInt("role_id"));
         String foundName = resultSet.getString("name");

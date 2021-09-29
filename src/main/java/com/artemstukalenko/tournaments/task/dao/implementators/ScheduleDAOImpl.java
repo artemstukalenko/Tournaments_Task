@@ -1,7 +1,8 @@
 package com.artemstukalenko.tournaments.task.dao.implementators;
 
-import com.artemstukalenko.tournaments.task.dao.ConnectionCloser;
+import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.ScheduleDAO;
+import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Schedule;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.Tournament;
@@ -14,13 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.artemstukalenko.tournaments.task.db_info.DBInfo.*;
-
-public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
-
-    private Connection connection;
-    private PreparedStatement statement;
-    private ResultSet resultSet;
+public class ScheduleDAOImpl extends EntityDAO implements ScheduleDAO {
 
     private TeamService teamService = new TeamServiceImpl();
     private TournamentService tournamentService = new TournamentServiceImpl();
@@ -36,7 +31,7 @@ public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                allSchedules.add(constructNewSchedule());
+                allSchedules.add(constructNewEntity());
             }
 
             return allSchedules;
@@ -58,7 +53,7 @@ public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
 
             if (resultSet != null) {
                 resultSet.next();
-                soughtSchedule = constructNewSchedule();
+                soughtSchedule = constructNewEntity();
             }
 
             return soughtSchedule;
@@ -132,12 +127,8 @@ public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
         }
     }
 
-    private void setConnectionWithNoAutoCommit() throws SQLException {
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        connection.setAutoCommit(false);
-    }
-
-    private Schedule constructNewSchedule() throws SQLException {
+    @Override
+    protected Schedule constructNewEntity() throws SQLException {
         int id = resultSet.getInt("schedule_id");
         Team team = teamService.findTeamById(resultSet.getInt("team_id"));
         Tournament tournament = tournamentService.findTournamentById(resultSet.getInt("tournament_id"));
@@ -145,7 +136,10 @@ public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
         return new Schedule(id, tournament, team);
     }
 
-    private void setValuesToStatementFromObject(Schedule schedule) throws SQLException {
+    @Override
+    protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
+        Schedule schedule = (Schedule) entity;
+
         statement.setInt(1, schedule.getTournament().getTournamentId());
         statement.setInt(2, schedule.getTeam().getTeamId());
     }

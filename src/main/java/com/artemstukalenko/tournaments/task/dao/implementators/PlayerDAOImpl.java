@@ -1,7 +1,8 @@
 package com.artemstukalenko.tournaments.task.dao.implementators;
 
-import com.artemstukalenko.tournaments.task.dao.ConnectionCloser;
+import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.PlayerDAO;
+import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Player;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.service.UserService;
@@ -11,13 +12,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.artemstukalenko.tournaments.task.db_info.DBInfo.*;
-
-public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
-
-    private Connection connection;
-    private PreparedStatement statement;
-    private ResultSet resultSet;
+public class PlayerDAOImpl extends EntityDAO implements PlayerDAO {
 
     private UserService userService = new UserServiceImpl();
 
@@ -32,7 +27,7 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                allPlayers.add(constructNewPlayer());
+                allPlayers.add(constructNewEntity());
             }
 
             return allPlayers;
@@ -54,7 +49,7 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
 
             if (resultSet != null) {
                 resultSet.next();
-                soughtPlayer = constructNewPlayer();
+                soughtPlayer = constructNewEntity();
             }
 
             return soughtPlayer;
@@ -128,17 +123,16 @@ public class PlayerDAOImpl implements PlayerDAO, ConnectionCloser {
         }
     }
 
-    private void setValuesToStatementFromObject(Player player) throws SQLException {
+    @Override
+    protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
+        Player player = (Player) entity;
+
         statement.setString(1, player.getPlayerName());
         statement.setInt(2, player.getUser().getUserId());
     }
 
-    private void setConnectionWithNoAutoCommit() throws SQLException {
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        connection.setAutoCommit(false);
-    }
-
-    private Player constructNewPlayer() throws SQLException {
+    @Override
+    protected Player constructNewEntity() throws SQLException {
         int id = resultSet.getInt("player_id");
         String name = resultSet.getString("player_name");
         User user = userService.findUserById(resultSet.getInt("user_id"));

@@ -1,8 +1,8 @@
 package com.artemstukalenko.tournaments.task.dao.implementators;
 
-import com.artemstukalenko.tournaments.task.dao.ConnectionCloser;
+import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.TournamentDAO;
-import com.artemstukalenko.tournaments.task.entity.Player;
+import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Tournament;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.service.UserService;
@@ -13,13 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.artemstukalenko.tournaments.task.db_info.DBInfo.*;
-
-public class TournamentDAOImpl implements TournamentDAO, ConnectionCloser {
-
-    private Connection connection;
-    private PreparedStatement statement;
-    private ResultSet resultSet;
+public class TournamentDAOImpl extends EntityDAO implements TournamentDAO {
 
     private UserService userService = new UserServiceImpl();
 
@@ -34,7 +28,7 @@ public class TournamentDAOImpl implements TournamentDAO, ConnectionCloser {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                allTournaments.add(constructNewTournament());
+                allTournaments.add(constructNewEntity());
             }
 
             return allTournaments;
@@ -57,7 +51,7 @@ public class TournamentDAOImpl implements TournamentDAO, ConnectionCloser {
 
             if (resultSet != null) {
                 resultSet.next();
-                soughtTournament = constructNewTournament();
+                soughtTournament = constructNewEntity();
             }
 
             return soughtTournament;
@@ -132,12 +126,8 @@ public class TournamentDAOImpl implements TournamentDAO, ConnectionCloser {
         }
     }
 
-    private void setConnectionWithNoAutoCommit() throws SQLException {
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        connection.setAutoCommit(false);
-    }
-
-    private Tournament constructNewTournament() throws SQLException {
+    @Override
+    protected Tournament constructNewEntity() throws SQLException {
         int id = resultSet.getInt("tournament_id");
         User user = userService.findUserById(resultSet.getInt("user_id"));
         String name = resultSet.getString("tournament_name");
@@ -148,7 +138,10 @@ public class TournamentDAOImpl implements TournamentDAO, ConnectionCloser {
         return new Tournament(id, user, name, venue, start, end);
     }
 
-    private void setValuesToStatementFromObject(Tournament tournament) throws SQLException {
+    @Override
+    protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
+        Tournament tournament = (Tournament) entity;
+
         statement.setInt(1, tournament.getUser().getUserId());
         statement.setString(2, tournament.getTournamentName());
         statement.setString(3, tournament.getVenue());
