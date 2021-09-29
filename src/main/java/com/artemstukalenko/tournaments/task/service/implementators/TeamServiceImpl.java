@@ -72,4 +72,13 @@ public class TeamServiceImpl implements TeamService {
             throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
+
+    @Override
+    public boolean deleteTeamByUserId(int userId) {
+        try {
+            return teamDAO.deleteTeamByUserId(userId);
+        } catch (SQLException e) {
+            throw new CouldNotInteractWithEntityException(e.getMessage());
+        }
+    }
 }

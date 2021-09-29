@@ -17,4 +17,5 @@ public interface PlayerDAO {
 
     boolean updatePlayerInDB(int playerToUpdate, Player updatedPlayer) throws SQLException;
 
+    boolean deletePlayerByUserId(int userId) throws SQLException;
 }

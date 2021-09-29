@@ -2,6 +2,7 @@ package com.artemstukalenko.tournaments.task.dao.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.PlayerDAO;
+import com.artemstukalenko.tournaments.task.dao.UserDAO;
 import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Player;
 import com.artemstukalenko.tournaments.task.entity.User;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class PlayerDAOImpl extends EntityDAO implements PlayerDAO {
 
-    private UserService userService = new UserServiceImpl();
+    private UserDAO userDAO = new UserDAOImpl();
 
     @Override
     public List<Player> getAllPlayers() throws SQLException {
@@ -124,6 +125,27 @@ public class PlayerDAOImpl extends EntityDAO implements PlayerDAO {
     }
 
     @Override
+    public boolean deletePlayerByUserId(int userId) throws SQLException {
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingTournamentByUserId = "delete from players where user_id = ?";
+            statement = connection.prepareStatement(statementForDeletingTournamentByUserId);
+            statement.setInt(1, userId);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    @Override
     protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
         Player player = (Player) entity;
 
@@ -135,7 +157,7 @@ public class PlayerDAOImpl extends EntityDAO implements PlayerDAO {
     protected Player constructNewEntity() throws SQLException {
         int id = resultSet.getInt("player_id");
         String name = resultSet.getString("player_name");
-        User user = userService.findUserById(resultSet.getInt("user_id"));
+        User user = userDAO.findUserById(resultSet.getInt("user_id"));
 
         return new Player(id, name, user);
     }

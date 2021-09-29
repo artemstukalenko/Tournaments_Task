@@ -17,4 +17,5 @@ public interface TeamService {
 
     boolean updateTeamInDB(int teamToUpdate, Team updatedTeam);
 
+    boolean deleteTeamByUserId(int userId);
 }

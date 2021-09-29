@@ -17,4 +17,5 @@ public interface TournamentService {
 
     boolean updateTournamentInDB(int tournamentToUpdate, Tournament updatedTournament);
 
+    boolean deleteTournamentByUserId(int userId);
 }

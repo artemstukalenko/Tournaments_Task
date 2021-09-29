@@ -2,10 +2,10 @@ package com.artemstukalenko.tournaments.task.dao.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.TeamDAO;
+import com.artemstukalenko.tournaments.task.dao.UserDAO;
 import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.User;
-import com.artemstukalenko.tournaments.task.service.UserService;
 import com.artemstukalenko.tournaments.task.service.implementators.UserServiceImpl;
 
 import java.sql.*;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class TeamDAOImpl extends EntityDAO implements TeamDAO {
 
-    private UserService userService = new UserServiceImpl();
+    private UserDAO userDAO = new UserDAOImpl();
 
     @Override
     public List<Team> getAllTeams() throws SQLException {
@@ -124,9 +124,29 @@ public class TeamDAOImpl extends EntityDAO implements TeamDAO {
     }
 
     @Override
+    public boolean deleteTeamByUserId(int userId) throws SQLException {
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingTournamentByUserId = "delete from teams where user_id = ?";
+            statement = connection.prepareStatement(statementForDeletingTournamentByUserId);
+            statement.setInt(1, userId);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    @Override
     protected Team constructNewEntity() throws SQLException {
         int id = resultSet.getInt("team_id");
-        User user = userService.findUserById(resultSet.getInt("user_id"));
+        User user = userDAO.findUserById(resultSet.getInt("user_id"));
         String name = resultSet.getString("team_name");
 
         return new Team(id, user, name);

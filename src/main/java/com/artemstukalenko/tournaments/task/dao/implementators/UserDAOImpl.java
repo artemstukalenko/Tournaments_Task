@@ -2,6 +2,7 @@ package com.artemstukalenko.tournaments.task.dao.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.UserDAO;
+import com.artemstukalenko.tournaments.task.dao.UserRoleDAO;
 import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.entity.UserRole;
@@ -13,10 +14,10 @@ import java.util.List;
 
 public class UserDAOImpl extends EntityDAO implements UserDAO {
 
-    private UserRoleService userRoleService;
+    private UserRoleDAO userRoleDAO;
 
     public UserDAOImpl() {
-        this.userRoleService = new UserRoleServiceImpl();
+        this.userRoleDAO = new UserRoleDAOImpl();
     }
 
     @Override
@@ -143,7 +144,7 @@ public class UserDAOImpl extends EntityDAO implements UserDAO {
     @Override
     protected User constructNewEntity() throws SQLException {
         int foundUserId = resultSet.getInt("user_id");
-        UserRole foundRole = userRoleService.findRoleById(resultSet.getInt("role_id"));
+        UserRole foundRole = userRoleDAO.findRoleById(resultSet.getInt("role_id"));
         String foundName = resultSet.getString("name");
         String foundUsername = resultSet.getString("user_name");
         String foundPassword = resultSet.getString("password");

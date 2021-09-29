@@ -67,4 +67,13 @@ public class PlayerServiceImpl implements PlayerService {
             throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
+
+    @Override
+    public boolean deletePlayerByUserId(int userId) {
+        try {
+            return playerDAO.deletePlayerByUserId(userId);
+        } catch (SQLException e) {
+            throw new CouldNotInteractWithEntityException(e.getMessage());
+        }
+    }
 }

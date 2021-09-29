@@ -17,4 +17,5 @@ public interface TournamentDAO {
 
     boolean updateTournamentInDB(int tournamentToUpdate, Tournament updatedTournament) throws SQLException;
 
+    boolean deleteTournamentByUserId(int userId) throws SQLException;
 }

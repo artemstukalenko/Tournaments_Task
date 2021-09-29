@@ -17,4 +17,5 @@ public interface TeamDAO {
 
     boolean updateTeamInDB(int teamToUpdate, Team updatedTeam) throws SQLException;
 
+    boolean deleteTeamByUserId(int userId) throws SQLException;
 }

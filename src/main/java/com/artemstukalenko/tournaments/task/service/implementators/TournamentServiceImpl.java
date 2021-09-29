@@ -67,4 +67,13 @@ public class TournamentServiceImpl implements TournamentService {
             throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
+
+    @Override
+    public boolean deleteTournamentByUserId(int userId) {
+        try {
+            return tournamentDAO.deleteTournamentByUserId(userId);
+        } catch (SQLException e) {
+            throw new CouldNotInteractWithEntityException(e.getMessage());
+        }
+    }
 }
