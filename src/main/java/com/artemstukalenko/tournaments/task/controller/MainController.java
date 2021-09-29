@@ -8,13 +8,22 @@ public class MainController extends Controller {
 
     private EntityController entityController;
 
+    boolean continueCommand = true;
+
     @Override
     public void processUser() {
-        System.out.println(GREETING);
 
-        listenToInputCommand();
+        while (continueCommand) {
+            System.out.println(GREETING);
+            
+            listenToInputCommand();
 
-        responseToCommand();
+            responseToCommand();
+
+            System.out.println(ASK_FOR_CONTINUE);
+
+            askForContinueCommand();
+        }
     }
 
     @Override
@@ -71,5 +80,24 @@ public class MainController extends Controller {
                 userCommand = UserChoice.WORK_WITH_SCHEDULES;
                 break;
         }
+    }
+
+    private void askForContinueCommand() {
+
+        while (scanner.hasNext()) {
+            String input = scanner.next();
+
+            if(input.equalsIgnoreCase("Y")) {
+                continueCommand = true;
+                break;
+            } else if (input.equalsIgnoreCase("N")) {
+                continueCommand = false;
+                break;
+            } else {
+                System.out.println(WRONG_INPUT);
+            }
+
+        }
+
     }
 }
