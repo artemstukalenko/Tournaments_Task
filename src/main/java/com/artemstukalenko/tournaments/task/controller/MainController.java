@@ -6,23 +6,7 @@ import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
 public class MainController extends Controller {
 
-    private UserRoleController userRoleController;
-    private UserController userController;
-    private PlayerController playerController;
-    private TeamController teamController;
-    private TeamPlayerController teamPlayerController;
-    private TournamentController tournamentController;
-    private ScheduleController scheduleController;
-
-    public MainController() {
-        this.userRoleController = new UserRoleController();
-        this.userController = new UserController();
-        this.playerController = new PlayerController();
-        this.teamController = new TeamController();
-        this.teamPlayerController = new TeamPlayerController();
-        this.tournamentController = new TournamentController();
-        this.scheduleController = new ScheduleController();
-    }
+    private EntityController entityController;
 
     @Override
     public void processUser() {
@@ -37,27 +21,29 @@ public class MainController extends Controller {
     protected void responseToCommand() {
         switch (userCommand) {
             case WORK_WITH_ROLES:
-                userRoleController.processUser();
+                entityController = new UserRoleController();
                 break;
             case WORK_WITH_USERS:
-                userController.processUser();
+                entityController = new UserController();
                 break;
             case WORK_WITH_PLAYERS:
-                playerController.processUser();
+                entityController = new PlayerController();
                 break;
             case WORK_WITH_TEAMS:
-                teamController.processUser();
+                entityController = new TeamController();
                 break;
             case WORK_WITH_TEAMPLAYERS:
-                teamPlayerController.processUser();
+                entityController = new TeamPlayerController();
                 break;
             case WORK_WITH_TOURNAMENTS:
-                tournamentController.processUser();
+                entityController = new TournamentController();
                 break;
             case WORK_WITH_SCHEDULES:
-                scheduleController.processUser();
+                entityController = new ScheduleController();
                 break;
         }
+
+        entityController.processUser();
     }
 
     @Override
