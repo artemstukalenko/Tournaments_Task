@@ -48,12 +48,31 @@ public class TournamentController extends EntityController{
 
     @Override
     protected void processEntityDeletion() {
+        System.out.println(DELETE_BY_ID);
 
+        if (tournamentService.deleteTournamentById(listenToInputForID())) {
+            System.out.println(ENTITY_DELETED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     @Override
     protected void processEntityUpdate() {
+        System.out.println(UPDATE_ENTITY_REQUEST);
 
+        int tournamentToUpdateId = listenToInputForID();
+
+        System.out.println(UPDATE_ENTITY_OBJECT + tournamentService.findTournamentById(tournamentToUpdateId));
+
+        Tournament updatedTournament = constructNewTournament();
+
+        if (tournamentService.updateTournamentInDB(tournamentToUpdateId, updatedTournament)) {
+            System.out.println(UPDATED_SUCCESSFULLY +
+                    tournamentService.findTournamentById(tournamentToUpdateId));
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     private Tournament constructNewTournament() {
