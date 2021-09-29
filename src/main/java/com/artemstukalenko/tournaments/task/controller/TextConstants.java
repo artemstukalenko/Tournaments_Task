@@ -34,4 +34,7 @@ public interface TextConstants {
     String VENUE_FOR_NEW_TOURNAMENT = "Enter venue name for new tournament";
     String START_DATE_FOR_NEW_TOURNAMENT = "Enter start date for new tournament in format 'YYYY-MM-DD'";
     String END_DATE_FOR_NEW_TOURNAMENT = "Enter end date for new tournament in format 'YYYY-MM-DD'";
+
+    String TEAM_ID_FOR_NEW_SCHEDULE = "Enter team id for new schedule";
+    String TOURNAMENT_ID_FOR_NEW_SCHEDULE = "Enter tournament id for new schedule";
 }

@@ -54,6 +54,7 @@ public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
             String statementForGettingScheduleById = "select * from schedules where schedule_id = ?";
             statement = connection.prepareStatement(statementForGettingScheduleById);
             statement.setInt(1, scheduleId);
+            resultSet = statement.executeQuery();
 
             if (resultSet != null) {
                 resultSet.next();
@@ -115,7 +116,7 @@ public class ScheduleDAOImpl implements ScheduleDAO, ConnectionCloser {
         try {
             setConnectionWithNoAutoCommit();
             String statementForUpdatingSchedule = "update schedules set tournament_id = ?, team_id = ? " +
-                    "where schedule_i = ?";
+                    "where schedule_id = ?";
             statement = connection.prepareStatement(statementForUpdatingSchedule);
             setValuesToStatementFromObject(updatedSchedule);
             statement.setInt(3, scheduleToUpdate);
