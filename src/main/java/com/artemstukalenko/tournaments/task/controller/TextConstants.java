@@ -28,4 +28,10 @@ public interface TextConstants {
 
     String TEAM_ID_FOR_TEAMPLAYER = "Enter team id for new team player";
     String PLAYER_ID_FOR_TEAMPLAYER = "Enter player id for new team player";
+
+    String USER_ID_FOR_NEW_TOURNAMENT = "Enter user id for new tournament";
+    String NAME_FOR_NEW_TOURNAMENT = "Enter name for new tournament";
+    String VENUE_FOR_NEW_TOURNAMENT = "Enter venue name for new tournament";
+    String START_DATE_FOR_NEW_TOURNAMENT = "Enter start date for new tournament in format 'YYYY-MM-DD'";
+    String END_DATE_FOR_NEW_TOURNAMENT = "Enter end date for new tournament in format 'YYYY-MM-DD'";
 }

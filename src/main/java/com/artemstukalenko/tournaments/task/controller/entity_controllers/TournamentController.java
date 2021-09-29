@@ -1,9 +1,15 @@
 package com.artemstukalenko.tournaments.task.controller.entity_controllers;
 
+import com.artemstukalenko.tournaments.task.controller.RegexContainer;
+import com.artemstukalenko.tournaments.task.controller.TextConstants;
+import com.artemstukalenko.tournaments.task.entity.Tournament;
+import com.artemstukalenko.tournaments.task.entity.User;
 import com.artemstukalenko.tournaments.task.service.TournamentService;
 import com.artemstukalenko.tournaments.task.service.UserService;
 import com.artemstukalenko.tournaments.task.service.implementators.TournamentServiceImpl;
 import com.artemstukalenko.tournaments.task.service.implementators.UserServiceImpl;
+
+import java.time.LocalDate;
 
 import static com.artemstukalenko.tournaments.task.controller.TextConstants.*;
 
@@ -33,7 +39,11 @@ public class TournamentController extends EntityController{
 
     @Override
     protected void processEntityAddition() {
-
+        if (tournamentService.addNewTournament(constructNewTournament())) {
+            System.out.println(ENTITY_ADDED);
+        } else {
+            System.out.println(UNEXPECTED_ERROR_OCCURRED);
+        }
     }
 
     @Override
@@ -44,5 +54,40 @@ public class TournamentController extends EntityController{
     @Override
     protected void processEntityUpdate() {
 
+    }
+
+    private Tournament constructNewTournament() {
+        System.out.println(USER_ID_FOR_NEW_TOURNAMENT);
+        User user = userService.findUserById(listenToInputForID());
+
+        System.out.println(NAME_FOR_NEW_TOURNAMENT);
+        String name = listenToInputForString();
+
+        System.out.println(VENUE_FOR_NEW_TOURNAMENT);
+        String venue = listenToInput();
+
+        System.out.println(START_DATE_FOR_NEW_TOURNAMENT);
+        LocalDate start = LocalDate.parse(listenToInputForDate());
+
+        System.out.println(END_DATE_FOR_NEW_TOURNAMENT);
+        LocalDate end = LocalDate.parse(listenToInputForDate());
+
+        return new Tournament(user, name, venue, start, end);
+    }
+
+    private String listenToInputForDate() {
+
+        while (scanner.hasNext()) {
+            String input = scanner.next();
+
+            if (input.matches(RegexContainer.VALID_DATE)) {
+                return input;
+            } else {
+                System.out.println(WRONG_INPUT);
+                continue;
+            }
+        }
+
+        throw new IllegalArgumentException();
     }
 }
