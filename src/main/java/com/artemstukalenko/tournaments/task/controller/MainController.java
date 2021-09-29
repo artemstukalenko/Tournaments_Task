@@ -11,6 +11,7 @@ public class MainController extends Controller {
     private PlayerController playerController;
     private TeamController teamController;
     private TeamPlayerController teamPlayerController;
+    private TournamentController tournamentController;
 
     public MainController() {
         this.userRoleController = new UserRoleController();
@@ -18,6 +19,7 @@ public class MainController extends Controller {
         this.playerController = new PlayerController();
         this.teamController = new TeamController();
         this.teamPlayerController = new TeamPlayerController();
+        this.tournamentController = new TournamentController();
     }
 
     @Override
@@ -47,6 +49,9 @@ public class MainController extends Controller {
             case WORK_WITH_TEAMPLAYERS:
                 teamPlayerController.processUser();
                 break;
+            case WORK_WITH_TOURNAMENTS:
+                tournamentController.processUser();
+                break;
         }
     }
 
@@ -67,6 +72,9 @@ public class MainController extends Controller {
                 break;
             case "TP":
                 userCommand = UserChoice.WORK_WITH_TEAMPLAYERS;
+                break;
+            case "TR":
+                userCommand = UserChoice.WORK_WITH_TOURNAMENTS;
                 break;
 
         }
