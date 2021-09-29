@@ -52,7 +52,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public boolean deletePlayerById(int playerToDeleteId) {
         try {
-            teamPlayerDAO.deleteTeamPlayerByPlayerId(playerToDeleteId);
+            teamPlayerDAO.deleteTeamPlayerByExternalId(playerToDeleteId, "player_id");
             return playerDAO.deletePlayerById(playerToDeleteId);
         } catch (SQLException e) {
             throw new CouldNotInteractWithEntityException(e.getMessage());

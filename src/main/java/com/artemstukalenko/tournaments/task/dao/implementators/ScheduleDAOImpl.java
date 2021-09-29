@@ -2,14 +2,12 @@ package com.artemstukalenko.tournaments.task.dao.implementators;
 
 import com.artemstukalenko.tournaments.task.dao.EntityDAO;
 import com.artemstukalenko.tournaments.task.dao.ScheduleDAO;
+import com.artemstukalenko.tournaments.task.dao.TeamDAO;
+import com.artemstukalenko.tournaments.task.dao.TournamentDAO;
 import com.artemstukalenko.tournaments.task.entity.Entity;
 import com.artemstukalenko.tournaments.task.entity.Schedule;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.entity.Tournament;
-import com.artemstukalenko.tournaments.task.service.TeamService;
-import com.artemstukalenko.tournaments.task.service.TournamentService;
-import com.artemstukalenko.tournaments.task.service.implementators.TeamServiceImpl;
-import com.artemstukalenko.tournaments.task.service.implementators.TournamentServiceImpl;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,8 +15,8 @@ import java.util.List;
 
 public class ScheduleDAOImpl extends EntityDAO implements ScheduleDAO {
 
-    private TeamService teamService = new TeamServiceImpl();
-    private TournamentService tournamentService = new TournamentServiceImpl();
+    private TeamDAO teamDAO = new TeamDAOImpl();
+    private TournamentDAO tournamentDAO = new TournamentDAOImpl();
 
     @Override
     public List<Schedule> getAllSchedules() throws SQLException {
@@ -128,10 +126,31 @@ public class ScheduleDAOImpl extends EntityDAO implements ScheduleDAO {
     }
 
     @Override
+    public boolean deleteScheduleByTeamId(int teamId) throws SQLException {
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForDeletingScheduleByTeamId = "delete from schedules where team_id = ?";
+            statement = connection.prepareStatement(statementForDeletingScheduleByTeamId);
+            statement.setInt(1, teamId);
+
+            statement.executeUpdate();
+
+            connection.commit();
+            return true;
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    @Override
     protected Schedule constructNewEntity() throws SQLException {
         int id = resultSet.getInt("schedule_id");
-        Team team = teamService.findTeamById(resultSet.getInt("team_id"));
-        Tournament tournament = tournamentService.findTournamentById(resultSet.getInt("tournament_id"));
+        Team team = teamDAO.findTeamById(resultSet.getInt("team_id"));
+        Tournament tournament = tournamentDAO.findTournamentById(resultSet.getInt("tournament_id"));
 
         return new Schedule(id, tournament, team);
     }

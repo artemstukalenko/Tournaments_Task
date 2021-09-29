@@ -17,5 +17,5 @@ public interface TeamPlayerDAO {
 
     boolean updateTeamPlayerInDB(int teamPlayerToUpdate, TeamPlayer updatedTeamPlayer) throws SQLException;
 
-    boolean deleteTeamPlayerByPlayerId(int playerId) throws SQLException;
+    boolean deleteTeamPlayerByExternalId(int playerId, String columnName) throws SQLException;
 }

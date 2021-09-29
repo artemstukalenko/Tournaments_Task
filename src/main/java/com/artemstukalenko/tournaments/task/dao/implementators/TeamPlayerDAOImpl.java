@@ -129,11 +129,11 @@ public class TeamPlayerDAOImpl extends EntityDAO implements TeamPlayerDAO {
     }
 
     @Override
-    public boolean deleteTeamPlayerByPlayerId(int playerId) throws SQLException {
+    public boolean deleteTeamPlayerByExternalId(int playerId, String columnName) throws SQLException {
 
         try {
             setConnectionWithNoAutoCommit();
-            String statementForDeletingTeamPlayerByPlayerId = "delete from team_players where player_id = ?";
+            String statementForDeletingTeamPlayerByPlayerId = "delete from team_players where " + columnName + " = ?";
             statement = connection.prepareStatement(statementForDeletingTeamPlayerByPlayerId);
             statement.setInt(1, playerId);
             statement.executeUpdate();

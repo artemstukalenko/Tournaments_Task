@@ -17,4 +17,5 @@ public interface ScheduleDAO {
 
     boolean updateScheduleInDB(int scheduleToUpdate, Schedule updatedSchedule) throws SQLException;
 
+    boolean deleteScheduleByTeamId(int teamId) throws SQLException;
 }
