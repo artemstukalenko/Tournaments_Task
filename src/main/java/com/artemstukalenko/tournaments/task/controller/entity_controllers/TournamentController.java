@@ -24,15 +24,6 @@ public class TournamentController extends EntityController{
     }
 
     @Override
-    public void processUser() {
-        System.out.println(WHAT_TO_DO_WITH);
-
-        listenToInputCommand();
-
-        responseToCommand();
-    }
-
-    @Override
     protected void readAll() {
         System.out.println(tournamentService.getAllTournaments());
     }

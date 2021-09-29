@@ -22,15 +22,6 @@ public class UserController extends EntityController {
     }
 
     @Override
-    public void processUser() {
-        System.out.println(WHAT_TO_DO_WITH);
-
-        listenToInputCommand();
-
-        responseToCommand();
-    }
-
-    @Override
     protected void processEntityAddition() {
         if (userService.addNewUser(constructNewUser())) {
             System.out.println(ENTITY_ADDED);
@@ -85,13 +76,7 @@ public class UserController extends EntityController {
 
     @Override
     protected void readAll() {
-
-        try {
-            System.out.println(userService.getAllUsers());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        System.out.println(userService.getAllUsers());
     }
 
     private User constructNewUser() {

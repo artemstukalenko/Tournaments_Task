@@ -19,15 +19,6 @@ public class UserRoleController extends EntityController {
     }
 
     @Override
-    public void processUser() {
-        System.out.println(WHAT_TO_DO_WITH);
-
-        listenToInputCommand();
-
-        responseToCommand();
-    }
-
-    @Override
     protected void processEntityUpdate() {
         System.out.println(UPDATE_ENTITY_REQUEST);
 
@@ -86,11 +77,7 @@ public class UserRoleController extends EntityController {
 
     @Override
     public void readAll() {
-        try {
-            System.out.println(userRoleService.getAllUserRoles());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        System.out.println(userRoleService.getAllUserRoles());
     }
 
 }
