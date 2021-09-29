@@ -126,11 +126,11 @@ public class ScheduleDAOImpl extends EntityDAO implements ScheduleDAO {
     }
 
     @Override
-    public boolean deleteScheduleByTeamId(int teamId) throws SQLException {
+    public boolean deleteScheduleByExternalId(int teamId, String columnName) throws SQLException {
 
         try {
             setConnectionWithNoAutoCommit();
-            String statementForDeletingScheduleByTeamId = "delete from schedules where team_id = ?";
+            String statementForDeletingScheduleByTeamId = "delete from schedules where " + columnName + " = ?";
             statement = connection.prepareStatement(statementForDeletingScheduleByTeamId);
             statement.setInt(1, teamId);
 

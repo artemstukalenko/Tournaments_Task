@@ -6,7 +6,6 @@ import com.artemstukalenko.tournaments.task.dao.TeamPlayerDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.ScheduleDAOImpl;
 import com.artemstukalenko.tournaments.task.dao.implementators.TeamDAOImpl;
 import com.artemstukalenko.tournaments.task.dao.implementators.TeamPlayerDAOImpl;
-import com.artemstukalenko.tournaments.task.entity.Schedule;
 import com.artemstukalenko.tournaments.task.entity.Team;
 import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
 import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
@@ -58,7 +57,7 @@ public class TeamServiceImpl implements TeamService {
     public boolean deleteTeamById(int teamId) {
         try {
             teamPlayerDAO.deleteTeamPlayerByExternalId(teamId,  "team_id");
-            scheduleDAO.deleteScheduleByTeamId(teamId);
+            scheduleDAO.deleteScheduleByExternalId(teamId, "team_id");
             return teamDAO.deleteTeamById(teamId);
         } catch (SQLException e) {
             throw new CouldNotInteractWithEntityException(e.getMessage());

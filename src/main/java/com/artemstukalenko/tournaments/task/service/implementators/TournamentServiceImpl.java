@@ -1,6 +1,8 @@
 package com.artemstukalenko.tournaments.task.service.implementators;
 
+import com.artemstukalenko.tournaments.task.dao.ScheduleDAO;
 import com.artemstukalenko.tournaments.task.dao.TournamentDAO;
+import com.artemstukalenko.tournaments.task.dao.implementators.ScheduleDAOImpl;
 import com.artemstukalenko.tournaments.task.dao.implementators.TournamentDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.Tournament;
 import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
@@ -13,9 +15,11 @@ import java.util.List;
 public class TournamentServiceImpl implements TournamentService {
 
     private TournamentDAO tournamentDAO;
+    private ScheduleDAO scheduleDAO;
 
     public TournamentServiceImpl() {
         this.tournamentDAO = new TournamentDAOImpl();
+        this.scheduleDAO = new ScheduleDAOImpl();
     }
 
     @Override
@@ -48,6 +52,7 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     public boolean deleteTournamentById(int tournamentId) {
         try {
+            scheduleDAO.deleteScheduleByExternalId(tournamentId, "tournament_id");
             return tournamentDAO.deleteTournamentById(tournamentId);
         } catch (SQLException e) {
             throw new CouldNotInteractWithEntityException(e.getMessage());
