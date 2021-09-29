@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserRoleService {
 
-    public List<UserRole> getAllUserRoles() throws SQLException;
+    public List<UserRole> getAllUserRoles();
 
     UserRole findRoleById(int roleId);
 

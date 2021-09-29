@@ -3,6 +3,8 @@ package com.artemstukalenko.tournaments.task.service.implementators;
 import com.artemstukalenko.tournaments.task.dao.UserRoleDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.UserRoleDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.UserRole;
+import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
+import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
 import com.artemstukalenko.tournaments.task.service.UserRoleService;
 
 import java.sql.SQLException;
@@ -17,8 +19,12 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public List<UserRole> getAllUserRoles() throws SQLException {
-        return userRoleDAO.getAllUserRoles();
+    public List<UserRole> getAllUserRoles() {
+        try {
+            return userRoleDAO.getAllUserRoles();
+        } catch (SQLException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     @Override
@@ -26,7 +32,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         try {
             return userRoleDAO.findRoleById(roleId);
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -35,8 +41,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         try {
             return userRoleDAO.addNewRole(roleToAdd);
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -45,8 +50,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         try {
             return userRoleDAO.deleteRoleById(roleId);
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -55,8 +59,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         try {
             return userRoleDAO.updateRoleInDB(roleToUpdate, updatedRole);
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 }

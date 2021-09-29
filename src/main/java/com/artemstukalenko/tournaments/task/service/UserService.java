@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers() throws SQLException;
+    List<User> getAllUsers();
 
     boolean addNewUser(User userToAdd);
 

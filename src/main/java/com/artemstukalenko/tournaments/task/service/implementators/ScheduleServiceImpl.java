@@ -3,6 +3,8 @@ package com.artemstukalenko.tournaments.task.service.implementators;
 import com.artemstukalenko.tournaments.task.dao.ScheduleDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.ScheduleDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.Schedule;
+import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
+import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
 import com.artemstukalenko.tournaments.task.service.ScheduleService;
 
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         try {
             return scheduleDAO.getAllSchedules();
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -30,7 +32,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         try {
             return scheduleDAO.findScheduleById(scheduleId);
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -39,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         try {
             return scheduleDAO.addNewSchedule(scheduleToAdd);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -48,7 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         try {
             return scheduleDAO.deleteScheduleById(scheduleId);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -57,7 +59,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         try {
             return scheduleDAO.updateScheduleInDB(scheduleToUpdate, updatedSchedule);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 }

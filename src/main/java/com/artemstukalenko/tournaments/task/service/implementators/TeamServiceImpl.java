@@ -3,6 +3,8 @@ package com.artemstukalenko.tournaments.task.service.implementators;
 import com.artemstukalenko.tournaments.task.dao.TeamDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.TeamDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.Team;
+import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
+import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
 import com.artemstukalenko.tournaments.task.service.TeamService;
 
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public class TeamServiceImpl implements TeamService {
         try {
             return teamDAO.getAllTeams();
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -30,7 +32,7 @@ public class TeamServiceImpl implements TeamService {
         try {
             return teamDAO.findTeamById(teamId);
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -39,7 +41,7 @@ public class TeamServiceImpl implements TeamService {
         try {
             return teamDAO.addNewTeam(teamToAdd);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -48,7 +50,7 @@ public class TeamServiceImpl implements TeamService {
         try {
             return teamDAO.deleteTeamById(teamId);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -57,7 +59,7 @@ public class TeamServiceImpl implements TeamService {
         try {
             return teamDAO.updateTeamInDB(teamToUpdate, updatedTeam);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 }

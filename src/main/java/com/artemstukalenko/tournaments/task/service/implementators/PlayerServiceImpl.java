@@ -3,6 +3,8 @@ package com.artemstukalenko.tournaments.task.service.implementators;
 import com.artemstukalenko.tournaments.task.dao.PlayerDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.PlayerDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.Player;
+import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
+import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
 import com.artemstukalenko.tournaments.task.service.PlayerService;
 
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public class PlayerServiceImpl implements PlayerService {
         try {
             return playerDAO.getAllPlayers();
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -30,7 +32,7 @@ public class PlayerServiceImpl implements PlayerService {
         try {
             return playerDAO.findPlayerById(playerId);
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -39,7 +41,7 @@ public class PlayerServiceImpl implements PlayerService {
         try {
             return playerDAO.addNewPlayer(playerToAdd);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -48,7 +50,7 @@ public class PlayerServiceImpl implements PlayerService {
         try {
             return playerDAO.deletePlayerById(playerToDeleteId);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -57,7 +59,7 @@ public class PlayerServiceImpl implements PlayerService {
         try {
             return playerDAO.updatePlayerInDB(playerToUpdateId, updatedPlayerObject);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 }

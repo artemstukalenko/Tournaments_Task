@@ -3,6 +3,8 @@ package com.artemstukalenko.tournaments.task.service.implementators;
 import com.artemstukalenko.tournaments.task.dao.TeamPlayerDAO;
 import com.artemstukalenko.tournaments.task.dao.implementators.TeamPlayerDAOImpl;
 import com.artemstukalenko.tournaments.task.entity.TeamPlayer;
+import com.artemstukalenko.tournaments.task.exception.CouldNotInteractWithEntityException;
+import com.artemstukalenko.tournaments.task.exception.EntityNotFoundException;
 import com.artemstukalenko.tournaments.task.service.TeamPlayerService;
 
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ public class TeamPlayerServiceImpl implements TeamPlayerService {
         try {
             return teamPlayerDAO.getAllTeamPlayers();
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -30,7 +32,7 @@ public class TeamPlayerServiceImpl implements TeamPlayerService {
         try {
             return teamPlayerDAO.findTeamPlayerById(teamPlayerId);
         } catch (SQLException e) {
-            return null;
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -39,7 +41,7 @@ public class TeamPlayerServiceImpl implements TeamPlayerService {
         try {
             return teamPlayerDAO.addNewTeamPlayer(teamPlayerToAdd);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -48,7 +50,7 @@ public class TeamPlayerServiceImpl implements TeamPlayerService {
         try {
             return teamPlayerDAO.deleteTeamPlayerById(teamPlayerId);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 
@@ -57,7 +59,7 @@ public class TeamPlayerServiceImpl implements TeamPlayerService {
         try {
             return teamPlayerDAO.updateTeamPlayerInDB(teamPlayerToUpdate, updatedTeamPlayer);
         } catch (SQLException e) {
-            return false;
+            throw new CouldNotInteractWithEntityException(e.getMessage());
         }
     }
 }
