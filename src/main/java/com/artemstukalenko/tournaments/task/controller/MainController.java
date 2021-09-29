@@ -15,7 +15,7 @@ public class MainController extends Controller {
 
         while (continueCommand) {
             System.out.println(GREETING);
-            
+
             listenToInputCommand();
 
             responseToCommand();
