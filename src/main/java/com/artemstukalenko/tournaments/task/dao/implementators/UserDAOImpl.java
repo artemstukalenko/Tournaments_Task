@@ -131,6 +131,27 @@ public class UserDAOImpl extends EntityDAO implements UserDAO {
     }
 
     @Override
+    public List<User> findUsersByUserRoleId(int userRoleId) throws SQLException {
+        List<User> allUsersWithRole = new ArrayList<>();
+
+        try {
+            setConnectionWithNoAutoCommit();
+            String statementForGettingUsersByRole = "select * from users where role_id = ?";
+            statement = connection.prepareStatement(statementForGettingUsersByRole);
+            statement.setInt(1, userRoleId);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                allUsersWithRole.add(constructNewEntity());
+            }
+
+            return allUsersWithRole;
+        } finally {
+            close(connection, statement, resultSet);
+        }
+    }
+
+    @Override
     protected void setValuesToStatementFromObject(Entity entity) throws SQLException {
         User user = (User) entity;
 

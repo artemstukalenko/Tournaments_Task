@@ -17,4 +17,6 @@ public interface UserService {
     User findUserById(int userId);
 
     boolean updateUser(int userToUpdateId, User updatedUserObject);
+
+    List<User> findUsersByUserRoleId(int userRoleId);
 }

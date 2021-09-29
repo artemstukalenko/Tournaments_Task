@@ -16,4 +16,6 @@ public interface UserDAO {
     User findUserById(int userId) throws SQLException;
 
     boolean updateUser(int userToUpdateId, User updatedUserObject) throws SQLException;
+
+    List<User> findUsersByUserRoleId(int userRoleId) throws SQLException;
 }

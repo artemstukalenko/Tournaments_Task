@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
             teamService.deleteTeamByUserId(userId);
             playerService.deletePlayerByUserId(userId);
             tournamentService.deleteTournamentByUserId(userId);
+
             return userDAO.deleteUserById(userId);
         } catch (SQLException e) {
             throw new CouldNotInteractWithEntityException(e.getMessage());
@@ -72,6 +73,15 @@ public class UserServiceImpl implements UserService {
             return userDAO.updateUser(userToUpdateId, updatedUserObject);
         } catch (SQLException e) {
             throw new CouldNotInteractWithEntityException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<User> findUsersByUserRoleId(int userRoleId) {
+        try {
+            return userDAO.findUsersByUserRoleId(userRoleId);
+        } catch (SQLException e) {
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 }
